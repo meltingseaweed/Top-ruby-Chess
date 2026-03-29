@@ -1,7 +1,7 @@
 module Chess
   class Board
     def initialize
-      @chessboard = Array.new(8) { Array.new(8, "|   |") }
+      @chessboard = Array.new(8) { Array.new(9, "|   |") }
       @chessboard[0][0] = @chessboard[0][7] = "| \u265C |"
       @chessboard[0][1] = @chessboard[0][6] = "| \u265E |"
       @chessboard[0][2] = @chessboard[0][5] = "| \u265D |"
@@ -14,6 +14,22 @@ module Chess
       @chessboard[7][3] = "| \u2655 |"
       @chessboard[7][4] = "| \u2654 |"
       @chessboard[6] = @chessboard[6].map { |piece| piece = "| \u2659 |" }
+      count = 8
+      @chessboard.each do |row|
+        row[8] = "| #{count} |"
+        count -= 1
+      end
+    end
+
+    def display_board
+      @chessboard.each do |row|
+        row.each do |value|
+          print value
+        end
+        puts ""
+      end
+      puts "----------------------------------------"
+      puts "| a || b || c || d || e || f || g || h |"
     end
   end
 end
