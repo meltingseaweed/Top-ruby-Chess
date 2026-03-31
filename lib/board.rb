@@ -1,6 +1,11 @@
 module Chess
   class Board
     def initialize
+      # Change so that array is filled with actual objects rather
+      # than strings.
+      # Then, create a display function which will update the icon
+      # depending on the contents of each array pieces :)
+      # So the code below will be altered for sure. 
       @chessboard = Array.new(8) { Array.new(9, "|   |") }
       @chessboard[0][0] = @chessboard[0][7] = "| \u265C |"
       @chessboard[0][1] = @chessboard[0][6] = "| \u265E |"
