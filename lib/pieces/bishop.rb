@@ -1,7 +1,11 @@
+require_relative '../board'
+# module Chess
 class Bishop
+
     def initialize(team, position)
       @position = position
       @team = team
+      
     end
 
     # Movement 1: The bishop can move diagonally in a straight 
@@ -11,47 +15,89 @@ class Bishop
     # opposite team, then it may move to that one position and 
     # capture the enemy piece
     def movement_bishop
+      all_possible_moves = up_left_check
+      all_possible_moves << up_right_check
+      all_possible_moves << low_left_check
+      all_possible_moves << low_right_check
+      all_possible_moves
+    end
 
-    possible_moves = []
-    count = 1
-    
     #Method for upper left check
+  def up_left_check(chessboard)
+    possible_moves = []
     row = @position[0] - 1
     col = @position[1] - 1
-    until col < 0
-      up_left = [row, col]
-      if up_left[0].between?(0,7) && up_left[1].between?(0,7)
-        if up_left.nil?
-          possible_moves << up_left
-        elsif up_left.nil? # Contains enemy piece. 
-          # (now just placeholder checking nil conditional)
-          #Add to capture array
-        else
-          break
-        end
+    while row.between?(0,7) && col.between?(0,7)
+      if chessboard[row][col].nil?
+        possible_moves << [row, col]
+      elsif col.nil? # Contains enemy piece. 
+        # (now just placeholder checking nil conditional)
+        #Add to capture array
+      else
+        break
       end
-      col -= 1
-      row -= 1
+    col -= 1
+    row -= 1
     end
+    possible_moves
+  end
 
     # Method for upper right check
-    row = @position[0] - 1
+  def up_right_check(chessboard)
+    possible_moves = []
     col = @position[1] + 1
-    until col > 7
-      up_right = [row, col]
-      if up_right[0].between?(0,7) && up_right[1].between?(0,7)
-        if up_right.nil?
-          possible_moves << up_right
-        elsif up_right.nil? # Contains enemy piece. 
+    row = @position[0] - 1
+    while row.between?(0,7) && col.between?(0,7)
+      if chessboard[row][col].nil?
+        possible_moves << [row, col]
+      elsif col.nil? # Contains enemy piece. 
+        # (now just placeholder checking nil conditional)
+        #Add to capture array
+      else
+        break
+      end
+    col += 1
+    row -= 1
+    end
+    possible_moves
+  end
+
+  def low_right_check(chessboard)
+    possible_moves = []
+    row = @position[0] + 1
+    col = @position[1] + 1
+    while row.between?(0,7) && col.between?(0,7)
+      if chessboard[row][col].nil?
+        possible_moves << [row, col]
+      elsif col.nil? # Contains enemy piece. 
+        # (now just placeholder checking nil conditional)
+        #Add to capture array
+      else
+        break
+      end
+    col += 1
+    row += 1
+    end
+    possible_moves
+  end
+
+  def low_left_check(chessboard)
+    possible_moves = []
+    col = @position[1] - 1
+    row = @position[0] + 1
+    while row.between?(0,7) && col.between?(0,7)
+        if chessboard[row][col].nil?
+          possible_moves << [row, col]
+        elsif col.nil? # Contains enemy piece. 
           # (now just placeholder checking nil conditional)
           #Add to capture array
         else
           break
         end
-      end
-      col += 1
-      row -= 1
+      col -= 1
+      row += 1
     end
-
+    possible_moves
   end
 end
+# end

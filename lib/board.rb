@@ -1,11 +1,24 @@
-module Chess
+# module Chess
   class Board
+
+    attr_reader :chessboard
+
     def initialize
+      @chessboard = Array.new(8) { Array.new(9) }
+      @current_white
+      @current_black
+      @captured_white
+      @captured_black
+      @player
+    end
+    
       # Change so that array is filled with actual objects rather
       # than strings.
       # Then, create a display function which will update the icon
       # depending on the contents of each array pieces :)
       # So the code below will be altered for sure. 
+      # 
+    def create_display_practice
       @chessboard = Array.new(8) { Array.new(9, "|   |") }
       @chessboard[0][0] = @chessboard[0][7] = "| \u265C |"
       @chessboard[0][1] = @chessboard[0][6] = "| \u265E |"
@@ -25,6 +38,7 @@ module Chess
         count -= 1
       end
     end
+  
 
     def display_board
       @chessboard.each do |row|
@@ -37,4 +51,4 @@ module Chess
       puts "| a || b || c || d || e || f || g || h |"
     end
   end
-end
+# end

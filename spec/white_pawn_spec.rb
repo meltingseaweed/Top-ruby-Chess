@@ -3,7 +3,7 @@ require 'pry-byebug'
 require_relative '../lib/all_pieces'
 require_relative '../lib/pieces/white_pawn'
 
-Rspec.describe WhitePawn do
+RSpec.describe WhitePawn do
   describe 'Evaluates possible moves' do
     subject(:white_pawn) { WhitePawn.new }
     context 'will calculate only legal moves under basic circumstances' do

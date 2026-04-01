@@ -28,6 +28,7 @@ module Chess
       elsif [row - 1, col + 1] && col <= 7 # && team is black
         possible_moves << [row - 1, col + 1]
       end
+      possible_moves
     end
   end
 end
