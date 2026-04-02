@@ -6,17 +6,17 @@ require_relative '../lib/pieces/bishop'
 
 RSpec.describe Bishop do
   describe 'Evaluates possible moves' do
-    subject(:bishop) { Bishop.new("w", [6,2]) }
-    subject(:bishop_mid) { Bishop.new("b", [3,3]) }
+    subject(:bishop) { Bishop.new("w", [7,2]) }
+    subject(:bishop_mid) { Bishop.new("w", [3,3]) }
     subject(:board) { Board.new }
     context 'will return legal moves under basic circumstances' do
       it 'can move diagonally upwards to the left' do
         moves = bishop.up_left_check(board.chessboard)
-        expect(moves).to eql([[5,1], [4,0]])
+        expect(moves).to eql([[6,1], [5,0]])
       end
       it 'can move diagonally upwards to the right' do
         moves = bishop.up_right_check(board.chessboard)
-        expect(moves).to eql([[5,3], [4,4], [3,5], [2,6], [1,7]])
+        expect(moves).to eql([[6,3], [5,4], [4,5], [3,6], [2,7]])
       end
       it 'can move diagonally downwards to the left' do
         moves = bishop_mid.low_left_check(board.chessboard)
@@ -27,13 +27,31 @@ RSpec.describe Bishop do
         expect(moves).to eql([[4,4], [5,5], [6,6], [7,7]])
       end
 
-      xit 'will return 1 value then be blocked by a friendly piece' do
+      it 'will return 1 value then be blocked by a friendly piece' do
+        board.chessboard[6][1] = Bishop.new("w", [6,1])
+        board.chessboard[5][4] = Bishop.new("w", [5,4])
+        moves = bishop.movement_bishop(board.chessboard)
+        expect(moves).to eql([[6,3]])
       end
-      xit 'will return 3 values then be blocked by a friendly piece' do
+      it 'will return 3 values then be blocked by a friendly piece' do
+        board.chessboard[2][4] = Bishop.new("w", [2,4])
+        board.chessboard[2][2] = Bishop.new("w", [2,2])
+        board.chessboard[4][2] = Bishop.new("w", [4,2])
+        board.chessboard[7][7] = Bishop.new("w", [7,7])
+        moves = bishop_mid.movement_bishop(board.chessboard)
+        expect(moves).to eql([[4,4], [5,5], [6,6]])
       end
-      xit 'cannot move when all directions are blocked or at board edges' do 
+
+      it 'will return values in multiple directions' do
+        board.chessboard[1][1] = Bishop.new("w", [1,1])
+        board.chessboard[1][5] = Bishop.new("w", [1,5])
+        board.chessboard[6][6] = Bishop.new("w", [6,6])
+        board.chessboard[6][0] = Bishop.new("w", [6,30])
+        moves = bishop_mid.movement_bishop(board.chessboard)
+        expect(moves).to eql([[2,2], [2,4], [4,2], [5,1],[4,4],[5,5]])
       end
-      xit 'can move diagonally 1 space to take an enemy piece' do
+      
+      xit 'can move diagonally to take an enemy piece' do
       end
     end
 
