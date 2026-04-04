@@ -1,5 +1,6 @@
 class BlackPawn < Pieces
 
+  attr_reader :team
   def initialize(team, position)
     @position = position
     @team = team

@@ -3,6 +3,7 @@ require 'pry-byebug'
 require_relative '../lib/all_pieces'
 require_relative '../lib/board'
 require_relative '../lib/pieces/white_pawn'
+require_relative '../lib/pieces/black_pawn'
 
 RSpec.describe WhitePawn do
   describe 'Evaluates possible moves' do
@@ -26,7 +27,11 @@ RSpec.describe WhitePawn do
         expect(moves).to eql([]) 
       end
 
-      xit 'can move diagonally 1 space to take an enemy piece' do
+      it 'can move diagonally 1 space to take an enemy piece' do
+        board.chessboard[4][2] = BlackPawn.new("b", [4,2])
+        capture = pawn_three.capturable(board.chessboard)
+        expect(capture).to eql([[4,2]])
+
       end
     end
 

@@ -1,5 +1,6 @@
 class WhitePawn < Pieces
 
+  attr_reader :team
   def initialize(team, position)
     @position = position
     @team = team
@@ -29,5 +30,27 @@ class WhitePawn < Pieces
     #   capture_array << [row - 1, col + 1]
     # end
     possible_moves
+  end
+
+  def capturable(chessboard)
+    binding.pry
+    capturable_pieces = []
+    row = @position[0]
+    col = @position[1]
+    if col.between?(1,6)
+      left = chessboard[row - 1][col - 1]
+      right = chessboard[row - 1][col + 1]
+      if left.team != @team
+        capturable_pieces << [row - 1, col - 1]
+      elsif right.team != @team
+        capturable_pieces << [row - 1, col + 1]
+      end
+    elsif col == 0
+      right = chessboard[row - 1][col + 1]
+      capturable_pieces << [row - 1, col + 1] if right.team != @team
+    elsif col == 7
+      left = chessboard[row - 1][col - 1]
+      capturable_pieces << [row - 1, col + 1] if left.team != @team
+    end
   end
 end
