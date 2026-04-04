@@ -42,5 +42,32 @@ RSpec.describe King do
         
       end
     end
+
+    context 'Correctly finds checkmate' do
+      xit 'Correctly finds checkmate and ends the game' do
+        
+      end
+      xit 'Correctly finds checkmate to be false' do
+        
+      end
+    end
+
+    context 'Castling' do
+      xit 'Can find whether castling is a legal move' do
+        
+      end
+      xit 'Can correctly castle to the left' do
+        
+      end
+      xit 'Can correctly castle to the right' do
+        
+      end
+      xit 'Does not allow castling when the king has moved' do
+        
+      end
+      xit 'Does not allow castling when the rook has moved' do
+        
+      end
+    end
   end
 end
