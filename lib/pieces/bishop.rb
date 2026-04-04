@@ -12,10 +12,6 @@ class Bishop < Pieces
     # Movement 1: The bishop can move diagonally in a straight 
     # line as long as there is empty space and it is within the
     # edges of the board 0 > x/y < 8
-    # Movement 2: If the next diagonal piece is a piece from the 
-    # opposite team, then it may move to that one position and 
-    # capture the enemy piece
-    # movement_bishop returns an array of positions e.g. [[5,3]]
     def movement_bishop(chessboard)
       all_possible_moves = []
       up_left = up_left_check(chessboard)
@@ -28,7 +24,9 @@ class Bishop < Pieces
       low_right.each { |val| all_possible_moves << val unless val == [] }
       all_possible_moves
     end
-
+    # Movement 2: If the next diagonal piece is a piece from the 
+    # opposite team, then it may move to that one position and 
+    # capture the enemy piece
+    # movement_bishop returns an array of positions e.g. [[5,3]]
 
 end
-# end
