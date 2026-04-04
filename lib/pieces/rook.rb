@@ -1,4 +1,6 @@
-class Rook
+require_relative '../all_pieces'
+
+class Rook < Pieces
 
   def initialize(team, position)
   @team = team
@@ -16,78 +18,5 @@ class Rook
     downwards.each { |val| all_possible_moves << val unless val == [] }
     left.each { |val| all_possible_moves << val unless val == [] }
     all_possible_moves
-  end
-
-
-  def left_check(chessboard)
-    possible_moves = []
-    row = @position[0]
-    col = @position[1] - 1
-    while col.between?(0,7)
-      if chessboard[row][col].nil?
-        possible_moves << [row, col]
-      elsif col.nil? # Contains enemy piece. 
-        # (now just placeholder checking nil conditional)
-        #Add to capture array
-      else
-        break
-      end
-    col -= 1
-    end
-    possible_moves
-  end
-
-  def right_check(chessboard)
-    possible_moves = []
-    row = @position[0]
-    col = @position[1] + 1
-    while col.between?(0,7)
-      if chessboard[row][col].nil?
-        possible_moves << [row, col]
-      elsif col.nil? # Contains enemy piece. 
-        # (now just placeholder checking nil conditional)
-        #Add to capture array
-      else
-        break
-      end
-    col += 1
-    end
-    possible_moves
-  end
-
-  def down_check(chessboard)
-    possible_moves = []
-    row = @position[0] + 1
-    col = @position[1]
-    while row.between?(0,7)
-      if chessboard[row][col].nil?
-        possible_moves << [row, col]
-      elsif col.nil? # Contains enemy piece. 
-        # (now just placeholder checking nil conditional)
-        #Add to capture array
-      else
-        break
-      end
-    row += 1
-    end
-    possible_moves
-  end
-
-  def up_check(chessboard)
-    possible_moves = []
-    row = @position[0] - 1
-    col = @position[1]
-    while row.between?(0,7)
-      if chessboard[row][col].nil?
-        possible_moves << [row, col]
-      elsif col.nil? # Contains enemy piece. 
-        # (now just placeholder checking nil conditional)
-        #Add to capture array
-      else
-        break
-      end
-    row -= 1
-    end
-    possible_moves
   end
 end
