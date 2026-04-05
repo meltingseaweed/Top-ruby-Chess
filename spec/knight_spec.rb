@@ -23,8 +23,10 @@ RSpec.describe Knight do
         expect(moves).to eql([[4,5], [5,4], [5,2], [4,1], [2,1], [2,5]])
       end
 
-      xit 'can return array of capturable pieces' do
-        
+      it 'can return array of capturable pieces' do
+        board.chessboard[5][0] = Knight.new("b", [5,0])
+        capture = knight_one.capturable(board.chessboard)
+        expect(capture).to eql([[5,0]])
       end
 
       xit 'can capture pieces' do
