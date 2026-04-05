@@ -27,17 +27,17 @@ class WhitePawn < Pieces
     if col.between?(1,6)
       left = chessboard[row - 1][col - 1]
       right = chessboard[row - 1][col + 1]
-      if left.team != @team
+      if left != nil && left.team != @team
         capturable_pieces << [row - 1, col - 1]
-      elsif right.team != @team
+      elsif right != nil && right.team != @team
         capturable_pieces << [row - 1, col + 1]
       end
     elsif col == 0
       right = chessboard[row - 1][col + 1]
-      capturable_pieces << [row - 1, col + 1] if right.team != @team
+      capturable_pieces << [row - 1, col + 1] if right != nil && right.team != @team
     elsif col == 7
       left = chessboard[row - 1][col - 1]
-      capturable_pieces << [row - 1, col + 1] if left.team != @team
+      capturable_pieces << [row - 1, col + 1] if left != nil && left.team != @team
     end
     capturable_pieces
   end
