@@ -28,9 +28,9 @@ RSpec.describe WhitePawn do
       end
 
       it 'can move diagonally 1 space to take an enemy piece' do
-        board.chessboard[4][2] = BlackPawn.new("b", [4,2])
+        board.chessboard[4][4] = BlackPawn.new("b", [4,4])
         capture = pawn_three.capturable(board.chessboard)
-        expect(capture).to eql([[4,2]])
+        expect(capture).to eql([[4,4]])
 
       end
     end
