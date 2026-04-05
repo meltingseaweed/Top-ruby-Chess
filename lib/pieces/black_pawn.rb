@@ -34,7 +34,6 @@ class BlackPawn < Pieces
 
   def capturable(chessboard)
     binding.pry
-    # Need to alter this one to fit black pawn
     capturable_pieces = []
     row = @position[0]
     col = @position[1]
