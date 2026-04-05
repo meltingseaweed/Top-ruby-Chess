@@ -40,15 +40,5 @@ RSpec.describe Queen do
       end
     end
 
-    context 'correctly finds check' do
-      xit 'Correctly finds check to be true' do
-        
-      end
-
-      xit 'Correctly finds check to be false' do
-        
-      end
-    end
-
   end
 end
