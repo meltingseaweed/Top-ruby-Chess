@@ -3,7 +3,7 @@ require_relative '../all_pieces'
 class Rook < Pieces
 
   attr_reader :team
-  
+
   def initialize(team, position)
   @team = team
   @position = position
@@ -23,7 +23,6 @@ class Rook < Pieces
   end
 
   def capturable(chessboard)
-    binding.pry
     capture_pieces = []
     capture_pieces << up_enemy_check(chessboard)
     capture_pieces << left_enemy_check(chessboard)
