@@ -24,12 +24,14 @@ RSpec.describe King do
         expect(moves).to eql([[5,4], [5,5], [6,5], [7,5], [7,4], [7,3], [6,3], [5,3]])
       end
 
-      xit 'Can return array of capturable pieces' do
-        
-      end
-
-      xit 'Can capture a piece' do
-        
+      it 'Can return array of capturable pieces' do
+        board.chessboard[7][3] = King.new("b", [7,3])
+        board.chessboard[7][5] = King.new("w", [7,5])
+        board.chessboard[6][3] = King.new("b", [6,3])
+        board.chessboard[6][4] = King.new("b", [6,4])
+        board.chessboard[6][5] = King.new("b", [6,5])
+        capture = king.capturable(board.chessboard)
+        expect(capture).to eql([[6,4], [6,5], [7,3], [6,3]])
       end
     end
 
