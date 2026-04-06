@@ -42,7 +42,12 @@ RSpec.describe Rook do
     
     end
     context 'capturing enemy pieces' do 
-      xit 'can move to take an enemy piece' do
+      it 'can return an array of enemy pieces' do
+        board.chessboard[3][0] = Rook.new("b", [3,0])
+        board.chessboard[3][6] = Rook.new("b", [3,6])
+        board.chessboard[1][3] = Rook.new("w", [1,3])
+        capture_pieces = rook_mid.capturable(board.chessboard)
+        expect(capture_pieces).to eql([[3,0], [3,6]])
       end
     end
 

@@ -46,12 +46,18 @@ RSpec.describe Bishop do
         board.chessboard[1][1] = Bishop.new("w", [1,1])
         board.chessboard[1][5] = Bishop.new("w", [1,5])
         board.chessboard[6][6] = Bishop.new("w", [6,6])
-        board.chessboard[6][0] = Bishop.new("w", [6,30])
+        board.chessboard[6][0] = Bishop.new("w", [6,0])
         moves = bishop_mid.movement_bishop(board.chessboard)
         expect(moves).to eql([[2,2], [2,4], [4,2], [5,1],[4,4],[5,5]])
       end
       
-      xit 'can move diagonally to take an enemy piece' do
+      it 'can return array of enemy pieces' do
+        board.chessboard[1][1] = Bishop.new("w", [1,1])
+        board.chessboard[1][5] = Bishop.new("b", [1,5])
+        board.chessboard[6][6] = Bishop.new("b", [6,6])
+        board.chessboard[6][0] = Bishop.new("w", [6,0])
+        capture = bishop_mid.capturable(board.chessboard)
+        expect(capture).to eql([[1,5], [6,6]])
       end
     end
 
