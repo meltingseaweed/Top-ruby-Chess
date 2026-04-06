@@ -2,6 +2,8 @@ require_relative '../all_pieces'
 
 class Rook < Pieces
 
+  attr_reader :team
+  
   def initialize(team, position)
   @team = team
   @position = position
@@ -18,5 +20,15 @@ class Rook < Pieces
     downwards.each { |val| all_possible_moves << val unless val == [] }
     left.each { |val| all_possible_moves << val unless val == [] }
     all_possible_moves
+  end
+
+  def capturable(chessboard)
+    binding.pry
+    capture_pieces = []
+    capture_pieces << up_enemy_check(chessboard)
+    capture_pieces << left_enemy_check(chessboard)
+    capture_pieces << down_enemy_check(chessboard)
+    capture_pieces << right_enemy_check(chessboard)
+    capture_pieces.compact
   end
 end

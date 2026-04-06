@@ -3,15 +3,13 @@ require_relative '../all_pieces'
 # module Chess
 class Bishop < Pieces
 
+  attr_reader :team
     def initialize(team, position)
       @position = position
       @team = team
       
     end
 
-    # Movement 1: The bishop can move diagonally in a straight 
-    # line as long as there is empty space and it is within the
-    # edges of the board 0 > x/y < 8
     def movement_bishop(chessboard)
       all_possible_moves = []
       up_left = up_left_check(chessboard)
@@ -24,9 +22,13 @@ class Bishop < Pieces
       low_right.each { |val| all_possible_moves << val unless val == [] }
       all_possible_moves
     end
-    # Movement 2: If the next diagonal piece is a piece from the 
-    # opposite team, then it may move to that one position and 
-    # capture the enemy piece
-    # movement_bishop returns an array of positions e.g. [[5,3]]
 
+    def capturable(chessboard)
+      capture_pieces = []
+      capture_pieces << enemy_up_right_check(chessboard)
+      capture_pieces << enemy_low_right_check(chessboard)
+      capture_pieces << enemy_low_left_check(chessboard)
+      capture_pieces << enemy_up_left_check(chessboard)
+      capture_pieces.compact
+    end
 end
