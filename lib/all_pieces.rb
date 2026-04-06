@@ -7,15 +7,27 @@ class Pieces
     while col.between?(0,7)
       if chessboard[row][col].nil?
         possible_moves << [row, col]
-      elsif col.nil? # Contains enemy piece. 
-        # (now just placeholder checking nil conditional)
-        #Add to capture array
       else
         break
       end
     col -= 1
     end
     possible_moves
+  end
+
+  def left_enemy_check(chessboard)
+    row = @position[0]
+    col = @position[1] - 1
+    while col.between?(0,7)
+      if chessboard[row][col] != nil
+        if chessboard[row][col].team == @team
+          return nil
+        elsif chessboard[row][col].team != @team
+          return [row, col]
+        end
+      end
+      col -= 1
+    end
   end
 
   def right_check(chessboard)
@@ -25,15 +37,27 @@ class Pieces
     while col.between?(0,7)
       if chessboard[row][col].nil?
         possible_moves << [row, col]
-      elsif col.nil? # Contains enemy piece. 
-        # (now just placeholder checking nil conditional)
-        #Add to capture array
       else
         break
       end
     col += 1
     end
     possible_moves
+  end
+
+  def right_enemy_check(chessboard)
+    row = @position[0]
+    col = @position[1] + 1
+    while col.between?(0,7)
+      if chessboard[row][col] != nil
+        if chessboard[row][col].team == @team
+          return nil
+        elsif chessboard[row][col].team != @team
+          return [row, col]
+        end
+      end
+      col += 1
+    end
   end
 
   def down_check(chessboard)
@@ -43,15 +67,27 @@ class Pieces
     while row.between?(0,7)
       if chessboard[row][col].nil?
         possible_moves << [row, col]
-      elsif col.nil? # Contains enemy piece. 
-        # (now just placeholder checking nil conditional)
-        #Add to capture array
       else
         break
       end
     row += 1
     end
     possible_moves
+  end
+
+  def down_enemy_check(chessboard)
+    row = @position[0] + 1
+    col = @position[1]
+    while row.between?(0,7)
+      if chessboard[row][col] != nil
+        if chessboard[row][col].team == @team
+          return nil
+        elsif chessboard[row][col].team != @team
+          return [row, col]
+        end
+      end
+      row += 1
+    end
   end
 
   def up_check(chessboard)
@@ -61,15 +97,27 @@ class Pieces
     while row.between?(0,7)
       if chessboard[row][col].nil?
         possible_moves << [row, col]
-      elsif col.nil? # Contains enemy piece. 
-        # (now just placeholder checking nil conditional)
-        #Add to capture array
       else
         break
       end
     row -= 1
     end
     possible_moves
+  end
+
+  def up_enemy_check(chessboard)
+    row = @position[0] - 1
+    col = @position[1]
+    while row.between?(0,7)
+      if chessboard[row][col] != nil
+        if chessboard[row][col].team == @team
+          return nil
+        elsif chessboard[row][col].team != @team
+          return [row, col]
+        end
+      end
+      row -= 1
+    end
   end
 
   def up_left_check(chessboard)
@@ -79,36 +127,64 @@ class Pieces
     while row.between?(0,7) && col.between?(0,7)
       if chessboard[row][col].nil?
         possible_moves << [row, col]
-      elsif col.nil? # Contains enemy piece. 
-        # (now just placeholder checking nil conditional)
-        #Add to capture array
       else
         break
       end
-    col -= 1
     row -= 1
+    col -= 1
     end
     possible_moves
+  end
+
+  def enemy_up_left_check(chessboard)
+    possible_moves = []
+    row = @position[0] - 1
+    col = @position[1] - 1
+    while row.between?(0,7) && col.between?(0,7)
+      if chessboard[row][col] != nil
+        if chessboard[row][col].team == team
+          return nil
+        elsif chessboard[row][col].team != team
+          return [row, col]
+        end
+      end
+      row -= 1
+      col -= 1
+    end
   end
 
     # Method for upper right check
   def up_right_check(chessboard)
     possible_moves = []
-    col = @position[1] + 1
     row = @position[0] - 1
+    col = @position[1] + 1
     while row.between?(0,7) && col.between?(0,7)
       if chessboard[row][col].nil?
         possible_moves << [row, col]
-      elsif col.nil? # Contains enemy piece. 
-        # (now just placeholder checking nil conditional)
-        #Add to capture array
       else
         break
       end
-    col += 1
     row -= 1
+    col += 1
     end
     possible_moves
+  end
+
+  def enemy_up_right_check(chessboard)
+    possible_moves = []
+    row = @position[0] - 1
+    col = @position[1] + 1
+    while row.between?(0,7) && col.between?(0,7)
+      if chessboard[row][col] != nil
+        if chessboard[row][col].team == team
+          return nil
+        elsif chessboard[row][col].team != team
+          return [row, col]
+        end
+      end
+      row -= 1
+      col += 1
+    end
   end
 
   def low_right_check(chessboard)
@@ -118,34 +194,62 @@ class Pieces
     while row.between?(0,7) && col.between?(0,7)
       if chessboard[row][col].nil?
         possible_moves << [row, col]
-      elsif col.nil? # Contains enemy piece. 
-        # (now just placeholder checking nil conditional)
-        #Add to capture array
       else
         break
       end
-    col += 1
     row += 1
+    col += 1
     end
     possible_moves
   end
 
+  def enemy_low_right_check(chessboard)
+    possible_moves = []
+    row = @position[0] + 1
+    col = @position[1] + 1
+    while row.between?(0,7) && col.between?(0,7)
+      if chessboard[row][col] != nil
+        if chessboard[row][col].team == team
+          return nil
+        elsif chessboard[row][col].team != team
+          return [row, col]
+        end
+      end
+      row += 1
+      col += 1
+    end
+  end
+
   def low_left_check(chessboard)
     possible_moves = []
-    col = @position[1] - 1
     row = @position[0] + 1
+    col = @position[1] - 1
     while row.between?(0,7) && col.between?(0,7)
         if chessboard[row][col].nil?
           possible_moves << [row, col]
-        elsif col.nil? # Contains enemy piece. 
-          # (now just placeholder checking nil conditional)
-          #Add to capture array
         else
           break
         end
-      col -= 1
       row += 1
+      col -= 1
     end
     possible_moves
+  end
+
+  def enemy_low_left_check(chessboard)
+    possible_moves = []
+    row = @position[0] + 1
+    col = @position[1] - 1
+    while row.between?(0,7) && col.between?(0,7)
+      if chessboard[row][col] != nil
+        if chessboard[row][col].team == team
+          return nil
+        elsif chessboard[row][col].team != team
+          return [row, col]
+        end
+      end
+      row += 1
+      col -= 1
+    end
   end
 end
