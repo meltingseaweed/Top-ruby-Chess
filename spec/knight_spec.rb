@@ -29,10 +29,6 @@ RSpec.describe Knight do
         expect(capture).to eql([[5,0]])
       end
 
-      xit 'can capture pieces' do
-        
-      end
-
     end
   end
 end
