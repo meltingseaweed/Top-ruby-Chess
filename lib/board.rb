@@ -53,14 +53,41 @@ class Board
       @chessboard[8][8] = "|   |"
     end
     
-      # Change so that array is filled with actual objects rather
-      # than strings.
-      # Then, create a display function which will update the icon
-      # depending on the contents of each array pieces :)
-      # So the code below will be altered for sure. 
-      # 
     def create_display_practice
-      @chessboard = Array.new(8) { Array.new(9, "|   |") }
+      @chessboard.each do |row|
+        row.each do |val|
+          if val.nil 
+            val = "|   |"
+            next
+          end
+          # Use 2 if statements to control the team selection
+          # For each case, change the value of val to the corrent unicode
+          
+          # How do we access the chessboard / Do we make another display board?
+          if val.team == "b"
+            case val.piece
+            when "black_pawn" then val = "| \u265F |"
+            when "rook" then val = "| \u265C |"
+            when "knight" then val = "| \u265E |"
+            when "bishop" then val = "| \u265D |"
+            when "queen" then val = "| \u265B |"
+            when "king" then val = "| \u265A |"
+            end
+          end
+
+          if val.team == "w"
+            case val
+          end
+          case val
+          when val.nil then val = "|   |"
+          when val.piece
+          end
+        end
+      end
+
+
+
+
       @chessboard[0][0] = @chessboard[0][7] = "| \u265C |"
       @chessboard[0][1] = @chessboard[0][6] = "| \u265E |"
       @chessboard[0][2] = @chessboard[0][5] = "| \u265D |"

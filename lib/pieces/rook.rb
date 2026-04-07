@@ -2,7 +2,7 @@ require_relative '../all_pieces'
 
 class Rook < Pieces
 
-  attr_reader :team
+  attr_reader :team, :piece
 
   def initialize(team, position)
   @team = team

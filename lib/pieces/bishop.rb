@@ -3,7 +3,7 @@ require_relative '../all_pieces'
 # module Chess
 class Bishop < Pieces
 
-  attr_reader :team
+  attr_reader :team, :piece
     def initialize(team, position)
       @position = position
       @team = team
