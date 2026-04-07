@@ -4,6 +4,7 @@ class WhitePawn < Pieces
   def initialize(team, position)
     @position = position
     @team = team
+    @piece = "white_pawn"
   end
 
   def movement_pawn(chessboard)
@@ -20,7 +21,6 @@ class WhitePawn < Pieces
   end
 
   def capturable(chessboard)
-    binding.pry
     capturable_pieces = []
     row = @position[0]
     col = @position[1]

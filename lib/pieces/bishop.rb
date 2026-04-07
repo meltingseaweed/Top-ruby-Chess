@@ -7,7 +7,7 @@ class Bishop < Pieces
     def initialize(team, position)
       @position = position
       @team = team
-      
+      @piece = "bishop"
     end
 
     def movement_bishop(chessboard)

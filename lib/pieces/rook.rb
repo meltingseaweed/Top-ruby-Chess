@@ -7,6 +7,7 @@ class Rook < Pieces
   def initialize(team, position)
   @team = team
   @position = position
+  @piece = "rook"
   end
 
   def movement_rook(chessboard)

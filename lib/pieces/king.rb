@@ -7,6 +7,7 @@ class King
   def initialize(team, position)
     @team = team
     @position = position
+    @piece = "king"
   end
 
   def movement_king(chessboard)

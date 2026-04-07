@@ -8,6 +8,7 @@ class Knight
   def initialize(team, position)
     @team = team
     @position = position
+    @piece = "knight"
   end
 
   def movement_knight(chessboard)
@@ -20,7 +21,6 @@ class Knight
       new_col = col + y
       if new_row.between?(0,7) && new_col.between?(0,7)
         new_positions << [new_row, new_col] if chessboard[new_row][new_col].nil?
-        # Add to capture array if that position contains an enemy piece
       end
     end
     new_positions

@@ -8,6 +8,7 @@ class Queen < Pieces
   def initialize(team, position)
     @team = team
     @position = position
+    @piece = "queen"
   end
 
   def movement_queen(chessboard)
