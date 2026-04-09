@@ -15,7 +15,8 @@ RSpec.describe Board do
       board = Board.new
       board.set_up_chessboard
       binding.pry
-      puts board.chessboard
+      board.display_board
+      expect(board.display).to include("| \u2658 |")
     end
   end
 
