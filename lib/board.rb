@@ -62,7 +62,6 @@ class Board
           end
         end
       end 
-      binding.pry
     end
     
     def display_board
@@ -94,7 +93,6 @@ class Board
               end
             end
           end
-      
         end
       end
       display.each do |row|
@@ -102,14 +100,13 @@ class Board
       end
     end
 
-    def check(player)
+    def check(player, board)
       player == "w" ? enemy_black = true : enemy_black = false
       if enemy_black
-        binding.pry
         enemy_range = []
         w_king = @remaining_white.select { |piece| piece.piece == "king" } 
         @remaining_black.each do |piece|
-          piece.capturable(@chessboard).each { |pos| enemy_range << pos unless pos == []}
+          piece.capturable(board).each { |pos| enemy_range << pos unless pos == []}
         end
         if enemy_range.include?(w_king[0].position)
           return true
@@ -117,11 +114,10 @@ class Board
           return false
         end
       else
-        binding.pry
         enemy_range = []
         b_king = @remaining_black.select { |piece| piece.piece == "king" }
         @remaining_white.each do |piece|
-          piece.capturable(@chessboard).each { |pos| enemy_range << pos unless pos == []}
+          piece.capturable(board).each { |pos| enemy_range << pos unless pos == []}
         end
         if enemy_range.include?(b_king[0].position)
           return true
@@ -132,53 +128,31 @@ class Board
     end
 
     def players_move_in_check(player)
-      players_piece = false
-      until players_piece == true
-        puts "You are in check, which piece would you like to move?"
-        chosen_piece_position = next_move
-        chosen_piece = @chessboard[chosen_piece_position[0]][chosen_piece_position[1]]
-        if chosen_piece != nil && chosen_piece.team == player
-          players_piece = true
-        end
-      end
+      still_in_check = true
+      until still_in_check == false
+        binding.pry
+        chosen_piece = choose_move(player)
+        player_next = calculate_moves(player, chosen_piece)
+        moves = chosen_piece.movement(@chessboard)
+        capture = chosen_piece.capturable(@chessboard)
+        save_board = @chessboard.map(&:clone)
+        save_position = chosen_piece.position
+        save_remaining_white = @remaining_white.clone
+        save_remaining_black = @remaining_black.clone
+        execute_move(player_next, chosen_piece, @chessboard)
 
-      moves = chosen_piece.movement(@chessboard)
-      capture = chosen_piece.capturable(@chessboard)
-
-      readable_moves = convert_to_readable(moves)
-      readable_capture = convert_to_readable(capture)
-      puts "Possible moves are: #{readable_moves}".colorize(:green)
-      puts "Pieces you can capture : #{readable_capture}".colorize(:yellow)
-      puts "Choose your next move"
-      player_next = next_move
-
-      until moves.include?(player_next) || capture.include?(player_next)
-        puts "Sorry, this move cannot be made"
-        player_next = next_move
-      end
-
-      fake_board = @chessboard.map(&:clone)
-      if moves.include?(player_next)
-        @chessboard[player_next[0]][player_next[1]] = chosen_piece
-      # Need to update the piece's position
-        chosen_piece.position = player_next
-        @chessboard[chosen_piece_position[0]][chosen_piece_position[1]] = nil
-      elsif capture.include?(player_next)
-        if @chessboard[player_next[0]][player_next[1]].team == "w"
-          @remaining_white.delete(@chessboard[player_next[0]][player_next[1]])
-          @chessboard[player_next[0]][player_next[1]] = chosen_piece
-          chosen_piece.position = player_next
-          @chessboard[chosen_piece_position[0]][chosen_piece_position[1]] = nil
-        elsif chessboard[player_next[0]][player_next[1]].team == "b"
-          @remaining_black.delete(@chessboard[player_next[0]][player_next[1]])
-          @chessboard[player_next[0]][player_next[1]] = chosen_piece
-          chosen_piece.position = player_next
-          @chessboard[chosen_piece_position[0]][chosen_piece_position[1]] = nil
+        if check(player, @chessboard) == false
+          still_in_check = false
+        else
+          @remaining_white = save_remaining_white
+          @remaining_black = save_remaining_black
+          @chessboard = save_board
+          chosen_piece.position = save_position
         end
       end
     end
 
-    def players_move(player)
+    def choose_move(player)
       players_piece = false
       if player == "w"
         puts "It is now white's turn to move"
@@ -193,9 +167,18 @@ class Board
           players_piece = true
         end
       end
+      chosen_piece
+    end
 
+    def calculate_moves(player, chosen_piece)
       moves = chosen_piece.movement(@chessboard)
       capture = chosen_piece.capturable(@chessboard)
+      until moves != [] || capture != []
+        puts "Error, cannot move selected piece. Choose another piece"
+        chosen_piece = choose_move(player)
+        moves = chosen_piece.movement(@chessboard)
+        capture = chosen_piece.capturable(@chessboard)
+      end
 
       readable_moves = convert_to_readable(moves)
       readable_capture = convert_to_readable(capture)
@@ -208,47 +191,38 @@ class Board
         puts "Sorry, this move cannot be made"
         player_next = next_move
       end
-    # Can we add a function to go back and change pieces?
-      execute_move(player_next, chosen_piece, moves, capture)
+      player_next
+    end
+
+    def players_move(player)
+      chosen_piece = choose_move(player)
+      player_next = calculate_moves(player, chosen_piece)
+      moves = chosen_piece.movement(@chessboard)
+      capture = chosen_piece.capturable(@chessboard)
+      execute_move(player_next, chosen_piece, @chessboard)
+    end
+
+    def execute_move(player_next, chosen_piece, board)
+      moves = chosen_piece.movement(board)
+      capture = chosen_piece.capturable(board)
+      chosen_piece_position = chosen_piece.position
       if moves.include?(player_next)
-        @chessboard[player_next[0]][player_next[1]] = chosen_piece
-      # Need to update the piece's position
+        board[player_next[0]][player_next[1]] = chosen_piece
         chosen_piece.position = player_next
-        @chessboard[chosen_piece_position[0]][chosen_piece_position[1]] = nil
+        board[chosen_piece_position[0]][chosen_piece_position[1]] = nil
       elsif capture.include?(player_next)
-        if @chessboard[player_next[0]][player_next[1]].team == "w"
-          @remaining_white.delete(@chessboard[player_next[0]][player_next[1]])
-          @chessboard[player_next[0]][player_next[1]] = chosen_piece
+        if board[player_next[0]][player_next[1]].team == "w"
+          @remaining_white.delete(board[player_next[0]][player_next[1]])
+          board[player_next[0]][player_next[1]] = chosen_piece
           chosen_piece.position = player_next
-          @chessboard[chosen_piece_position[0]][chosen_piece_position[1]] = nil
-        elsif chessboard[player_next[0]][player_next[1]].team == "b"
-          @remaining_black.delete(@chessboard[player_next[0]][player_next[1]])
-          @chessboard[player_next[0]][player_next[1]] = chosen_piece
+          board[chosen_piece_position[0]][chosen_piece_position[1]] = nil
+        elsif board[player_next[0]][player_next[1]].team == "b"
+          @remaining_black.delete(board[player_next[0]][player_next[1]])
+          board[player_next[0]][player_next[1]] = chosen_piece
           chosen_piece.position = player_next
-          @chessboard[chosen_piece_position[0]][chosen_piece_position[1]] = nil
+          board[chosen_piece_position[0]][chosen_piece_position[1]] = nil
         end
       end
     end
 
-    def execute_move(player_next, chosen_piece, moves, capture)
-      chosen_piece_position = chosen_piece.position
-      if moves.include?(player_next)
-        @chessboard[player_next[0]][player_next[1]] = chosen_piece
-      # Need to update the piece's position
-        chosen_piece.position = player_next
-        @chessboard[chosen_piece_position[0]][chosen_piece_position[1]] = nil
-      elsif capture.include?(player_next)
-        if @chessboard[player_next[0]][player_next[1]].team == "w"
-          @remaining_white.delete(@chessboard[player_next[0]][player_next[1]])
-          @chessboard[player_next[0]][player_next[1]] = chosen_piece
-          chosen_piece.position = player_next
-          @chessboard[chosen_piece_position[0]][chosen_piece_position[1]] = nil
-        elsif @chessboard[player_next[0]][player_next[1]].team == "b"
-          @remaining_black.delete(@chessboard[player_next[0]][player_next[1]])
-          @chessboard[player_next[0]][player_next[1]] = chosen_piece
-          chosen_piece.position = player_next
-          @chessboard[chosen_piece_position[0]][chosen_piece_position[1]] = nil
-        end
-      end
-    end
 end

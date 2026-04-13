@@ -1,7 +1,7 @@
 class WhitePawn < Pieces
 
   attr_reader :team, :piece
-  attr_writer :position
+  attr_accessor :position
   def initialize(team, position)
     @position = position
     @team = team
