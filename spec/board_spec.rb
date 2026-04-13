@@ -52,6 +52,15 @@ RSpec.describe Board do
         value = board.check("b")
         expect(value).to be(true)
       end
+
+      it 'returns false with no check' do
+        board.chessboard[3][3] = King.new("b", [3,3])
+        board.remaining_black << board.chessboard[3][3]
+        board.chessboard[4][7] = Rook.new("w", [4,7])
+        board.remaining_white << board.chessboard[4][7]
+        value = board.check("b")
+        expect(value).to be(false)
+      end
     end
   end
 
