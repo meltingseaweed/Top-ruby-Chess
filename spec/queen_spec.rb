@@ -16,7 +16,7 @@ RSpec.describe Queen do
         board.chessboard[6][2] = Queen.new("w", [6,2])
         board.chessboard[6][3] = Queen.new("w", [6,3])
         board.chessboard[6][4] = Queen.new("w", [6,4])
-        moves = queen.movement_queen(board.chessboard)
+        moves = queen.movement(board.chessboard)
         expect(moves).to eql([])
       end
       it 'Can return moves in all directions if no pieces surround it' do
@@ -27,7 +27,7 @@ RSpec.describe Queen do
         board.chessboard[6][0] = Queen.new("w", [6,0])
         board.chessboard[3][0] = Queen.new("w", [3,0])
         board.chessboard[0][0] = Queen.new("w", [0,0])
-        moves = queen_mid.movement_queen(board.chessboard)
+        moves = queen_mid.movement(board.chessboard)
         expect(moves).to eql([[2,3], [1,3], [2,4], [4,4], [5,5], [4,3], [5,3], [6,3], [7,3], [4,2], [5,1], [3,2], [3,1], [2,2], [1,1]])
       end
 

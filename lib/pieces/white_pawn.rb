@@ -7,7 +7,7 @@ class WhitePawn < Pieces
     @piece = "white_pawn"
   end
 
-  def movement_pawn(chessboard)
+  def movement(chessboard)
     possible_moves = []
     row = @position[0]
     col = @position[1]

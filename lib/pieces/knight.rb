@@ -11,7 +11,7 @@ class Knight
     @piece = "knight"
   end
 
-  def movement_knight(chessboard)
+  def movement(chessboard)
     new_positions = []
     row = @position[0]
     col = @position[1]

@@ -30,7 +30,7 @@ RSpec.describe Bishop do
       it 'will return 1 value then be blocked by a friendly piece' do
         board.chessboard[6][1] = Bishop.new("w", [6,1])
         board.chessboard[5][4] = Bishop.new("w", [5,4])
-        moves = bishop.movement_bishop(board.chessboard)
+        moves = bishop.movement(board.chessboard)
         expect(moves).to eql([[6,3]])
       end
       it 'will return 3 values then be blocked by a friendly piece' do
@@ -38,7 +38,7 @@ RSpec.describe Bishop do
         board.chessboard[2][2] = Bishop.new("w", [2,2])
         board.chessboard[4][2] = Bishop.new("w", [4,2])
         board.chessboard[7][7] = Bishop.new("w", [7,7])
-        moves = bishop_mid.movement_bishop(board.chessboard)
+        moves = bishop_mid.movement(board.chessboard)
         expect(moves).to eql([[4,4], [5,5], [6,6]])
       end
 
@@ -47,7 +47,7 @@ RSpec.describe Bishop do
         board.chessboard[1][5] = Bishop.new("w", [1,5])
         board.chessboard[6][6] = Bishop.new("w", [6,6])
         board.chessboard[6][0] = Bishop.new("w", [6,0])
-        moves = bishop_mid.movement_bishop(board.chessboard)
+        moves = bishop_mid.movement(board.chessboard)
         expect(moves).to eql([[2,2], [2,4], [4,2], [5,1],[4,4],[5,5]])
       end
       

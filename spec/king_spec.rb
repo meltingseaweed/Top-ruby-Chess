@@ -16,11 +16,11 @@ RSpec.describe King do
         board.chessboard[6][3] = King.new("w", [6,3])
         board.chessboard[6][4] = King.new("w", [6,4])
         board.chessboard[6][5] = King.new("w", [6,5])
-        moves = king.movement_king(board.chessboard)
+        moves = king.movement(board.chessboard)
         expect(moves).to eql([])
       end
       it 'Can return moves in all directions if no pieces surround it' do
-        moves = king_two.movement_king(board.chessboard)
+        moves = king_two.movement(board.chessboard)
         expect(moves).to eql([[5,4], [5,5], [6,5], [7,5], [7,4], [7,3], [6,3], [5,3]])
       end
 

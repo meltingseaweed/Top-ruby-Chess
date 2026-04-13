@@ -10,7 +10,7 @@ class King
     @piece = "king"
   end
 
-  def movement_king(chessboard)
+  def movement(chessboard)
     new_positions = []
     row = @position[0]
     col = @position[1]

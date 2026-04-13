@@ -11,7 +11,7 @@ class Queen < Pieces
     @piece = "queen"
   end
 
-  def movement_queen(chessboard)
+  def movement(chessboard)
     all_possible_moves = []
     upwards = up_check(chessboard)
     up_right = up_right_check(chessboard)

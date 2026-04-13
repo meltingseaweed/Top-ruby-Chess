@@ -13,11 +13,11 @@ class Board
 
     def initialize
       @chessboard = Array.new(9) { Array.new(9) }
-      @current_white
-      @current_black
-      @captured_white
-      @captured_black
-      @player
+      @current_white = []
+      @current_black = []
+      @captured_white = []
+      @captured_black = []
+      @player = "w"
     end
 
     def set_up_chessboard
@@ -44,9 +44,10 @@ class Board
         count += 1
       end
       count = 0
+      row = 8
       letter = 97
       while count < 9 do 
-        @chessboard[count][8] = "| #{count} |"
+        @chessboard[count][8] = "| #{row - count} |"
         @chessboard[8][count] = "| #{(letter+count).chr} |"
         count += 1
       end
@@ -84,7 +85,7 @@ class Board
       
         end
       end
-      binding.pry
+      # binding.pry
       display.each do |row|
         print "#{row}\n"
       end

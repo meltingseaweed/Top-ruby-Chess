@@ -12,14 +12,14 @@ RSpec.describe Knight do
     context 'will return all legal moves' do
       it 'can return the first two initial moves' do
         board.chessboard[6][3] = Knight.new("w", [6,3])
-        moves = knight_one.movement_knight(board.chessboard)
+        moves = knight_one.movement(board.chessboard)
         expect(moves).to eql([[5,0], [5,2]])
       end
 
       it 'can return multiple moves into empty spaces' do
         board.chessboard[1][4] = Knight.new("w", [1,4])
         board.chessboard[1][2] = Knight.new("w", [1,2])
-        moves = knight_mid.movement_knight(board.chessboard)
+        moves = knight_mid.movement(board.chessboard)
         expect(moves).to eql([[4,5], [5,4], [5,2], [4,1], [2,1], [2,5]])
       end
 

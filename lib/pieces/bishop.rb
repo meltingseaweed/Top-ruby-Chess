@@ -1,6 +1,6 @@
 require_relative '../board'
 require_relative '../all_pieces'
-# module Chess
+
 class Bishop < Pieces
 
   attr_reader :team, :piece
@@ -10,7 +10,7 @@ class Bishop < Pieces
       @piece = "bishop"
     end
 
-    def movement_bishop(chessboard)
+    def movement(chessboard)
       all_possible_moves = []
       up_left = up_left_check(chessboard)
       up_right = up_right_check(chessboard)

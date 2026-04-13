@@ -10,7 +10,7 @@ class Rook < Pieces
   @piece = "rook"
   end
 
-  def movement_rook(chessboard)
+  def movement(chessboard)
     all_possible_moves = []
     upwards = up_check(chessboard)
     right = right_check(chessboard)

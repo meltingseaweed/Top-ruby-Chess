@@ -10,14 +10,35 @@ require_relative '../lib/pieces/white_pawn'
 require_relative '../lib/pieces/black_pawn'  
 
 RSpec.describe Board do 
-  describe 'Can setup the board' do
-    it 'Can set up the board correctly' do
-      board = Board.new
-      board.set_up_chessboard
-      binding.pry
-      board.display_board
-      expect(board.display).to include("| \u2658 |")
+  describe 'setting up the board' do
+    subject(:board) {Board.new}
+    context 'can set up different pieces' do
+    xit 'Can set up all black pawns' do
     end
+
+    xit 'Can set up all white pawns' do
+      board = Boa
+    end
+
+    xit 'Can set up bishops' do
+      
+    end
+    xit 'Can set up kings' do
+      
+    end
+
+    xit 'Can set up queens' do
+      
+    end
+
+    xit 'Can set up knights' do 
+      
+    end
+
+    xit 'Can set up rooks' do
+      
+    end
+  end
   end
 
 end
