@@ -102,7 +102,7 @@ class Board
       end
     end
 
-    def check_check(player)
+    def check(player)
       player == "w" ? enemy_black = true : enemy_black = false
       if enemy_black
         binding.pry

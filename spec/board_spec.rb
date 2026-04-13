@@ -49,7 +49,7 @@ RSpec.describe Board do
         board.remaining_black << board.chessboard[3][3]
         board.chessboard[3][7] = Rook.new("w", [3,7])
         board.remaining_white << board.chessboard[3][7]
-        value = board.check_check("b")
+        value = board.check("b")
         expect(value).to be(true)
       end
     end
