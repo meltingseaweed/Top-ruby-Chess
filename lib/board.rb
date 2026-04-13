@@ -12,14 +12,12 @@ class Board
 
     include ChessMethods
     attr_reader :chessboard
-    attr_accessor :captured_white, :captured_black
+    attr_accessor :remaining_white, :remaining_black
 
     def initialize
       @chessboard = Array.new(9) { Array.new(9) }
-      @current_white = []
-      @current_black = []
-      @captured_white = []
-      @captured_black = []
+      @remaining_white = []
+      @remaining_black = []
     end
 
     def set_up_chessboard
@@ -53,6 +51,18 @@ class Board
         @chessboard[8][count] = "| #{(letter+count).chr} |"
         count += 1
       end
+      @chessboard.each do |row|
+        row.each do |val|
+          if val.is_a?(String) == false
+            if val != nil && val.team == "w"
+            @remaining_white << val
+            elsif val != nil && val.team == "b"
+            @remaining_black << val
+            end 
+          end
+        end
+      end 
+      binding.pry
     end
     
     def display_board
@@ -87,40 +97,39 @@ class Board
       
         end
       end
-      # binding.pry
       display.each do |row|
         print "#{row}\n"
       end
     end
-end
-    #   @chessboard[0][0] = @chessboard[0][7] = "| \u265C |"
-    #   @chessboard[0][1] = @chessboard[0][6] = "| \u265E |"
-    #   @chessboard[0][2] = @chessboard[0][5] = "| \u265D |"
-    #   @chessboard[0][3] = "| \u265B |"
-    #   @chessboard[0][4] = "| \u265A |"
-    #   @chessboard[1] = @chessboard[1].map { |piece| piece = "| \u265F |" }
-    #   @chessboard[7][0] = @chessboard[7][7] = "| \u2656 |"
-    #   @chessboard[7][1] = @chessboard[7][6] = "| \u2658 |"
-    #   @chessboard[7][2] = @chessboard[7][5] = "| \u2657 |"
-    #   @chessboard[7][3] = "| \u2655 |"
-    #   @chessboard[7][4] = "| \u2654 |"
-    #   @chessboard[6] = @chessboard[6].map { |piece| piece = "| \u2659 |" }
-    #   count = 8
-    #   @chessboard.each do |row|
-    #     row[8] = "| #{count} |"
-    #     count -= 1
-    #   end
-    # end
-  
 
-    # def display_board
-    #   @chessboard.each do |row|
-    #     row.each do |value|
-    #       print value
-    #     end
-    #     puts ""
-    #   end
-    #   puts "----------------------------------------"
-    #   puts "| a || b || c || d || e || f || g || h |"
-    # end
-# end
+    def check_check(player)
+      player == "w" ? enemy_black = true : enemy_black = false
+      if enemy_black
+        binding.pry
+        enemy_range = []
+        w_king = @remaining_white.select { |piece| piece.piece == "king" } 
+        @remaining_black.each do |piece|
+          piece.capturable(@chessboard).each { |pos| enemy_range << pos unless pos == []}
+        end
+        if enemy_range.include?(w_king[0].position)
+          return true
+        else
+          return false
+        end
+      else
+        binding.pry
+        enemy_range = []
+        b_king = @remaining_black.select { |piece| piece.piece == "king" }
+        @remaining_white.each do |piece|
+          piece.capturable(@chessboard).each { |pos| enemy_range << pos unless pos == []}
+        end
+        if enemy_range.include?(b_king[0].position)
+          return true
+        else
+          return false
+        end
+      end
+
+
+    end
+end

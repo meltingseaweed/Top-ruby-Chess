@@ -56,14 +56,12 @@ until game_finished == true
     chessboard[chosen_piece_position[0]][chosen_piece_position[1]] = nil
   elsif capture.include?(player_next)
     if chessboard[player_next[0]][player_next[1]].team == "w"
-      binding.pry
-      board.captured_white << chessboard[player_next[0]][player_next[1]]
+      board.remaining_white.delete(chessboard[player_next[0]][player_next[1]])
       chessboard[player_next[0]][player_next[1]] = chosen_piece
       chosen_piece.position = player_next
       chessboard[chosen_piece_position[0]][chosen_piece_position[1]] = nil
     elsif chessboard[player_next[0]][player_next[1]].team == "b"
-      binding.pry
-      board.captured_black << chessboard[player_next[0]][player_next[1]]
+      board.remaining_black.delete(chessboard[player_next[0]][player_next[1]])
       chessboard[player_next[0]][player_next[1]] = chosen_piece
       chosen_piece.position = player_next
       chessboard[chosen_piece_position[0]][chosen_piece_position[1]] = nil
