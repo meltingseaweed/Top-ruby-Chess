@@ -4,7 +4,7 @@ require_relative '../all_pieces'
 class Queen < Pieces
   
   attr_reader :team, :piece
-
+  attr_writer :position
   def initialize(team, position)
     @team = team
     @position = position

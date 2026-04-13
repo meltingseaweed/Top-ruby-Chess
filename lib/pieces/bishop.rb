@@ -4,6 +4,7 @@ require_relative '../all_pieces'
 class Bishop < Pieces
 
   attr_reader :team, :piece
+  attr_writer :position
     def initialize(team, position)
       @position = position
       @team = team

@@ -4,7 +4,7 @@ require_relative '../board'
 class Knight
   
   attr_reader :team, :piece
-  
+  attr_writer :position
   def initialize(team, position)
     @team = team
     @position = position

@@ -1,13 +1,14 @@
 class BlackPawn < Pieces
 
   attr_reader :team, :piece
+  attr_writer :position
   def initialize(team, position)
     @position = position
     @team = team
     @piece = "black_pawn"
   end
 
-  def movement_pawn(chessboard)
+  def movement(chessboard)
     possible_moves = []
     row = @position[0]
     col = @position[1]

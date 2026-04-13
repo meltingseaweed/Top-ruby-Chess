@@ -12,18 +12,18 @@ RSpec.describe BlackPawn do
     subject(:board) { Board.new }
     context 'will calculate only legal moves under basic circumstances' do
       it 'can move 1 or 2 spaces if in original start position' do
-        moves = pawn_two.movement_pawn(board.chessboard)
+        moves = pawn_two.movement(board.chessboard)
         expect(moves).to eql([[2,2], [3,2]])
       end
 
       it 'can move 1 space forward when not in start position' do
-        moves = pawn_three.movement_pawn(board.chessboard)
+        moves = pawn_three.movement(board.chessboard)
         expect(moves).to eql([[3,3]])
       end
 
       it 'cannot move forward when space in front is blocked' do
         board.chessboard[2][2] = BlackPawn.new("b", [3,2])
-        moves = pawn_two.movement_pawn(board.chessboard)
+        moves = pawn_two.movement(board.chessboard)
         expect(moves).to eql([]) 
       end
 

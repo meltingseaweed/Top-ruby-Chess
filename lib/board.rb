@@ -12,6 +12,7 @@ class Board
 
     include ChessMethods
     attr_reader :chessboard
+    attr_accessor :captured_white, :captured_black
 
     def initialize
       @chessboard = Array.new(9) { Array.new(9) }

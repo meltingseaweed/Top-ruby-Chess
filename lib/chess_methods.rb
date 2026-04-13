@@ -2,10 +2,6 @@ require 'pry-byebug'
 
 module ChessMethods
 
-def players_turn(player)
-  player == "b" ? player = "w" : player = "b"
-end
-
 def next_move
   piece = gets.chomp
   chosen_piece = piece.split("")
@@ -26,7 +22,7 @@ def convert_to_readable(array)
   new = array.map do |x, y|
     x = num_array[x-1].to_s
     y = letter_array[y]
-    [y,x]
+    ["#{y}#{x}"]
   end
 end
   
