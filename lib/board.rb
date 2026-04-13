@@ -6,9 +6,11 @@ require_relative 'pieces/knight'
 require_relative 'pieces/rook'
 require_relative 'pieces/white_pawn'
 require_relative 'pieces/black_pawn'  
+require_relative 'chess_methods'
 
 class Board
 
+    include ChessMethods
     attr_reader :chessboard
 
     def initialize
@@ -17,7 +19,6 @@ class Board
       @current_black = []
       @captured_white = []
       @captured_black = []
-      @player = "w"
     end
 
     def set_up_chessboard
