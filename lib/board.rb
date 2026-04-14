@@ -11,7 +11,7 @@ require_relative 'chess_methods'
 class Board
 
   include ChessMethods
-  attr_reader :chessboard
+  attr_reader :chessboard, :player
   attr_accessor :remaining_white, :remaining_black
 
   def initialize
@@ -19,6 +19,7 @@ class Board
     @remaining_white = []
     @remaining_black = []
     @captured_piece 
+    @player = "w"
   end
 
   def set_up_chessboard
@@ -101,9 +102,9 @@ class Board
     end
   end
 
-  def choose_move(player)
+  def choose_move
     players_piece = false
-    if player == "w"
+    if @player == "w"
       puts "It is now white's turn to move"
     else
       puts "It is now black's turn to move"
@@ -116,19 +117,19 @@ class Board
       end
       #What if a return statement is placed here in the case of 'save'?
       chosen_piece = @chessboard[chosen_piece_position[0]][chosen_piece_position[1]]
-      if chosen_piece != nil && chosen_piece.team == player
+      if chosen_piece != nil && chosen_piece.team == @player
         players_piece = true
       end
     end
     chosen_piece
   end
 
-  def calculate_moves(player, chosen_piece)
+  def calculate_moves(chosen_piece)
     moves = chosen_piece.movement(@chessboard)
     capture = chosen_piece.capturable(@chessboard)
     until moves != [] || capture != []
       puts "Error, cannot move selected piece. Choose another piece"
-      chosen_piece = choose_move(player)
+      chosen_piece = choose_move
       moves = chosen_piece.movement(@chessboard)
       capture = chosen_piece.capturable(@chessboard)
     end
@@ -147,8 +148,8 @@ class Board
     player_next
   end
 
-  def players_move(player)
-    chosen_piece = choose_move(player)
+  def players_move
+    chosen_piece = choose_move
     if chosen_piece == "save"
       return "save"
     end
@@ -157,14 +158,14 @@ class Board
     original_position = chosen_piece.position
     moves = chosen_piece.movement(@chessboard)
     capture = chosen_piece.capturable(@chessboard)
-    moves = legal_move?(moves, chosen_piece, player)
-    capture = legal_move?(capture, chosen_piece, player)
+    moves = legal_move?(moves, chosen_piece, @player)
+    capture = legal_move?(capture, chosen_piece, @player)
     # Do the move, check, and reset if needed
     execute_move(player_next, chosen_piece, @chessboard)
     update_remaining_pieces
   end
 
-  def legal_move?(moves, piece, player)
+  def legal_move?(moves, piece)
     legal_moves = []
     original_position = piece.position
     moves.each do |move|
@@ -173,7 +174,7 @@ class Board
       copy_remaining_black = @remaining_black.clone
       copy_remaining_white = @remaining_white.clone
       execute_move(move, piece, copy_board)
-      illegal_move = check(player, copy_board)
+      illegal_move = check(copy_board)
       if illegal_move
         next
       else
@@ -215,9 +216,8 @@ class Board
     end
   end
   
-  def check(player, board)
-    player == "w" ? enemy_black = true : enemy_black = false
-    binding.pry
+  def check(board)
+    @player == "w" ? enemy_black = true : enemy_black = false
     if enemy_black
       remaining_black = @remaining_black.clone
       if @captured_piece != nil && @captured_piece.team == "b"
@@ -236,13 +236,11 @@ class Board
     else
       enemy_range = []
       remaining_white = @remaining_white.clone
-      binding.pry
       if @captured_piece != nil && @captured_piece.team == "w"
         remaining_white.delete(@captured_piece)
       end
       b_king = @remaining_black.select { |piece| piece.piece == "king" }
       remaining_white.each do |piece|
-        binding.pry
         piece.capturable(board).each { |pos| enemy_range << pos unless pos == []}
       end
       if enemy_range.include?(b_king[0].position)
@@ -253,19 +251,19 @@ class Board
     end
   end
 
-  def still_in_check?(player)
+  def still_in_check?
     still_in_check = true
     until still_in_check == false
       puts "You are in check."
-      chosen_piece = choose_move(player)
-      player_next = calculate_moves(player, chosen_piece)
+      chosen_piece = choose_move
+      player_next = calculate_moves(chosen_piece)
       moves = chosen_piece.movement(@chessboard)
       capture = chosen_piece.capturable(@chessboard)
       save_board = @chessboard.map(&:clone)
       save_position = chosen_piece.position
       execute_move(player_next, chosen_piece, @chessboard)
 
-      if check(player, @chessboard) == false
+      if check(@chessboard) == false
         still_in_check = false
         update_remaining_pieces
       else
@@ -275,12 +273,12 @@ class Board
     end
   end
 
-  def in_checkmate?(player)
+  def in_checkmate?
     # copy_board = @chessboard.map(&:clone)
     copy_remaining_black = @remaining_black.clone
     copy_remaining_white = @remaining_white.clone
 
-    if player == "w"
+    if @player == "w"
       copy_remaining_white.each do |piece|
         original_position = piece.position
         moves = piece.movement(@chessboard)
@@ -290,14 +288,14 @@ class Board
           piece.position = original_position
           copy_board = @chessboard.map(&:clone)
           execute_move(move, piece, copy_board)
-          if check(player, copy_board) == true
+          if check(copy_board) == true
             next
           else
             return false
           end
         end
       end
-    elsif player == "b"
+    elsif @player == "b"
       copy_remaining_black.each do |piece|
         original_position = piece.position
         moves = piece.movement(@chessboard)
@@ -307,7 +305,7 @@ class Board
           piece.position = original_position
           copy_board = @chessboard.map(&:clone)
           execute_move(move, piece, copy_board)
-          if check(player, copy_board) == true
+          if check(copy_board) == true
             next
           else
             return false

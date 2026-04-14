@@ -24,6 +24,7 @@ if load == "y"
   board.display_board
   binding.pry
   puts "Did it load correctly?"
+  player = board.player
 else
   board = Board.new
   chessboard = board.chessboard
@@ -35,13 +36,13 @@ checkmate = false
 puts "Note that you can save at anytime by inputting 'save' during your turn"
 until checkmate == true
   board.display_board
-  check = board.check(player, chessboard)
+  check = board.check(chessboard)
   # If check, make a move that takes them out of check.
   # If false, then make a regular move.
   if check
-    board.still_in_check?(player)
+    board.still_in_check?
   elsif check == false && checkmate == false
-      turn = board.players_move(player)
+      turn = board.players_move
       if turn == "save"
         board.save(board, "one")
         next
@@ -49,7 +50,7 @@ until checkmate == true
   end
 
   player == "b" ? player = "w" : player = "b"
-  if board.in_checkmate?(player)
+  if board.in_checkmate?
     checkmate = true
   end
 
