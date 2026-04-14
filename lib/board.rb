@@ -247,13 +247,11 @@ class Board
 
     if player == "w"
       copy_remaining_white.each do |piece|
-        binding.pry
         original_position = piece.position
         moves = piece.movement(@chessboard)
         capture = piece.capturable(@chessboard)
         all_moves = moves.concat(capture)
         all_moves.each do |move|
-          binding.pry
           piece.position = original_position
           copy_board = @chessboard.map(&:clone)
           execute_move(move, piece, copy_board)
@@ -266,13 +264,11 @@ class Board
       end
     elsif player == "b"
       copy_remaining_black.each do |piece|
-        binding.pry
         original_position = piece.position
         moves = piece.movement(@chessboard)
         capture = piece.capturable(@chessboard)
         all_moves = moves.concat(capture)
         all_moves.each do |move|
-          binding.pry
           piece.position = original_position
           copy_board = @chessboard.map(&:clone)
           execute_move(move, piece, copy_board)
