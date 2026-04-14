@@ -64,7 +64,7 @@ RSpec.describe Board do
     end
 
     context 'When checking for checkmate' do
-      xit 'Returns true when checkmate is reached' do
+      it 'Returns true when checkmate is reached for black' do
         board.chessboard[1][0] = Queen.new("w", [1,0])
         board.remaining_white << board.chessboard[1][0]
         board.chessboard[0][0] = Rook.new("w", [0,0])
@@ -74,10 +74,20 @@ RSpec.describe Board do
         checkmate = board.in_checkmate?("b")
         expect(checkmate).to be(true)
       end
-
+      
+      it 'Returns true when checkmate is reached for white' do
+        board.chessboard[1][0] = Queen.new("b", [1,0])
+        board.remaining_black << board.chessboard[1][0]
+        board.chessboard[0][0] = Rook.new("b", [0,0])
+        board.remaining_black << board.chessboard[0][0]
+        board.chessboard[0][4] = King.new("w", [0,4])
+        board.remaining_white << board.chessboard[0][4]
+        checkmate = board.in_checkmate?("w")
+        expect(checkmate).to be(true)
+      end
   
 
-      xit 'Returns false when a player can capture to get out of checkmate' do
+      it 'Returns false when a player can capture to get out of checkmate' do
         board.chessboard[1][0] = Queen.new("w", [1,0])
         board.remaining_white << board.chessboard[1][0]
         board.chessboard[0][3] = Rook.new("w", [0,3])
@@ -88,7 +98,7 @@ RSpec.describe Board do
         expect(checkmate).to be(false)
       end
 
-      xit 'Returns false when a player can move to get out of checkmate' do
+      it 'Returns false when a player can move to get out of checkmate' do
         board.chessboard[1][0] = Queen.new("w", [1,0])
         board.remaining_white << board.chessboard[1][0]
         board.chessboard[6][4] = Rook.new("w", [6,4])
@@ -99,14 +109,14 @@ RSpec.describe Board do
         expect(checkmate).to be(false)
       end
 
-      xit 'Returns false when another piece can capture to get out of checkmate' do
-        board.chessboard[0][0] = Queen.new("w", [0,0])
-        board.remaining_white << board.chessboard[0][0]
-        board.chessboard[6][0] = Rook.new("b", [6,0])
-        board.remaining_black << board.chessboard[6][0]
-        board.chessboard[0][4] = King.new("b", [0,4])
-        board.remaining_black << board.chessboard[0][4]
-        checkmate = board.in_checkmate?("b")
+      it 'Returns false when another piece can capture to get out of checkmate' do
+        board.chessboard[0][0] = Queen.new("b", [0,0])
+        board.remaining_black << board.chessboard[0][0]
+        board.chessboard[6][0] = Rook.new("w", [6,0])
+        board.remaining_white << board.chessboard[6][0]
+        board.chessboard[0][4] = King.new("w", [0,4])
+        board.remaining_white << board.chessboard[0][4]
+        checkmate = board.in_checkmate?("w")
         expect(checkmate).to be(false)
       end
 
