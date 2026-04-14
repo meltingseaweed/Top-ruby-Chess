@@ -111,6 +111,10 @@ class Board
     until players_piece == true
       puts "Select one of your pieces to move"
       chosen_piece_position = next_move
+      if chosen_piece_position == "save"
+        return "save"
+      end
+      #What if a return statement is placed here in the case of 'save'?
       chosen_piece = @chessboard[chosen_piece_position[0]][chosen_piece_position[1]]
       if chosen_piece != nil && chosen_piece.team == player
         players_piece = true
@@ -145,7 +149,12 @@ class Board
 
   def players_move(player)
     chosen_piece = choose_move(player)
+    if chosen_piece == "save"
+      return "save"
+    end
+    # What if there is a return statement here in the case of 'save'?
     player_next = calculate_moves(player, chosen_piece)
+    original_position = chosen_piece.position
     moves = chosen_piece.movement(@chessboard)
     capture = chosen_piece.capturable(@chessboard)
     moves = legal_move?(moves, chosen_piece, player)
@@ -171,6 +180,7 @@ class Board
         legal_moves << move
       end
     end
+    piece.position = original_position
     legal_moves
   end
 
@@ -207,6 +217,7 @@ class Board
   
   def check(player, board)
     player == "w" ? enemy_black = true : enemy_black = false
+    binding.pry
     if enemy_black
       remaining_black = @remaining_black.clone
       if @captured_piece != nil && @captured_piece.team == "b"
@@ -225,11 +236,13 @@ class Board
     else
       enemy_range = []
       remaining_white = @remaining_white.clone
+      binding.pry
       if @captured_piece != nil && @captured_piece.team == "w"
         remaining_white.delete(@captured_piece)
       end
       b_king = @remaining_black.select { |piece| piece.piece == "king" }
       remaining_white.each do |piece|
+        binding.pry
         piece.capturable(board).each { |pos| enemy_range << pos unless pos == []}
       end
       if enemy_range.include?(b_king[0].position)
@@ -304,5 +317,12 @@ class Board
     end
     return true
     
+  end
+
+  def save(game, save_name)
+    $stdout = File.open("game_one.yml", "w") 
+    puts YAML::dump(game)
+    $stdout.close
+    $stdout = STDOUT
   end
 end
