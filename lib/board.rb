@@ -148,8 +148,30 @@ class Board
     player_next = calculate_moves(player, chosen_piece)
     moves = chosen_piece.movement(@chessboard)
     capture = chosen_piece.capturable(@chessboard)
+    moves = legal_move?(moves, chosen_piece, player)
+    capture = legal_move?(capture, chosen_piece, player)
+    # Do the move, check, and reset if needed
     execute_move(player_next, chosen_piece, @chessboard)
     update_remaining_pieces
+  end
+
+  def legal_move?(moves, piece, player)
+    legal_moves = []
+    original_position = piece.position
+    moves.each do |move|
+      piece.position = original_position
+      copy_board = @chessboard.map(&:clone)
+      copy_remaining_black = @remaining_black.clone
+      copy_remaining_white = @remaining_white.clone
+      execute_move(move, piece, copy_board)
+      illegal_move = check(player, copy_board)
+      if illegal_move
+        next
+      else
+        legal_moves << move
+      end
+    end
+    legal_moves
   end
 
   def update_remaining_pieces
