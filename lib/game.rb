@@ -14,21 +14,20 @@ board = Board.new
 chessboard = board.chessboard
 player = "b"
 board.set_up_chessboard
-game_finished = false
 check = false
 checkmate = false
 
-until game_finished == true
+until checkmate == true
   player == "b" ? player = "w" : player = "b"
   board.display_board
   check = board.check(player, chessboard)
 
   if check
-    board.players_move_in_check(player)
+    board.still_in_check?(player)
   elsif check == false && checkmate == false
       board.players_move(player)
   end
-  
+
 end
 
 

@@ -225,4 +225,29 @@ class Board
       end
     end
 
+  def out_of_check?(array)
+    save
+    array.each do |move|
+      
+    end
+  end
+  chosen_piece = choose_move(player)
+        player_next = calculate_moves(player, chosen_piece)
+        moves = chosen_piece.movement(@chessboard)
+        capture = chosen_piece.capturable(@chessboard)
+        save_board = @chessboard.map(&:clone)
+        save_position = chosen_piece.position
+        save_remaining_white = @remaining_white.clone
+        save_remaining_black = @remaining_black.clone
+        execute_move(player_next, chosen_piece, @chessboard)
+
+        if check(player, @chessboard) == false
+          still_in_check = false
+        else
+          @remaining_white = save_remaining_white
+          @remaining_black = save_remaining_black
+          @chessboard = save_board
+          chosen_piece.position = save_position
+        end
+
 end
