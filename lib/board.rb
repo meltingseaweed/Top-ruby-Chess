@@ -22,6 +22,10 @@ class Board
     @player = "w"
   end
 
+  def change_player
+    @player == "b" ? @player = "w" : @player = "b"
+  end
+
   def set_up_chessboard
     @chessboard[0][0] = Rook.new("b", [0,0])
     @chessboard[0][7] = Rook.new("b", [0,7])
@@ -115,7 +119,6 @@ class Board
       if chosen_piece_position == "save"
         return "save"
       end
-      #What if a return statement is placed here in the case of 'save'?
       chosen_piece = @chessboard[chosen_piece_position[0]][chosen_piece_position[1]]
       if chosen_piece != nil && chosen_piece.team == @player
         players_piece = true
@@ -153,14 +156,12 @@ class Board
     if chosen_piece == "save"
       return "save"
     end
-    # What if there is a return statement here in the case of 'save'?
-    player_next = calculate_moves(player, chosen_piece)
+    player_next = calculate_moves(chosen_piece)
     original_position = chosen_piece.position
     moves = chosen_piece.movement(@chessboard)
     capture = chosen_piece.capturable(@chessboard)
-    moves = legal_move?(moves, chosen_piece, @player)
-    capture = legal_move?(capture, chosen_piece, @player)
-    # Do the move, check, and reset if needed
+    moves = legal_move?(moves, chosen_piece)
+    capture = legal_move?(capture, chosen_piece)
     execute_move(player_next, chosen_piece, @chessboard)
     update_remaining_pieces
   end
@@ -254,6 +255,7 @@ class Board
   def still_in_check?
     still_in_check = true
     until still_in_check == false
+      binding.pry
       puts "You are in check."
       chosen_piece = choose_move
       player_next = calculate_moves(chosen_piece)
@@ -264,6 +266,7 @@ class Board
       execute_move(player_next, chosen_piece, @chessboard)
 
       if check(@chessboard) == false
+        binding.pry
         still_in_check = false
         update_remaining_pieces
       else
@@ -291,6 +294,7 @@ class Board
           if check(copy_board) == true
             next
           else
+            piece.position = original_position
             return false
           end
         end
@@ -308,6 +312,7 @@ class Board
           if check(copy_board) == true
             next
           else
+            piece.position = original_position
             return false
           end
         end

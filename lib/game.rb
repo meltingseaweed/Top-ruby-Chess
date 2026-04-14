@@ -22,13 +22,12 @@ load = gets.chomp
 if load == "y"
   board = load_game
   board.display_board
-  binding.pry
-  puts "Did it load correctly?"
+  chessboard = board.chessboard
   player = board.player
 else
   board = Board.new
   chessboard = board.chessboard
-  player = "w"
+  player = board.player
   board.set_up_chessboard
 end
 check = false
@@ -48,15 +47,16 @@ until checkmate == true
         next
       end
   end
-
-  player == "b" ? player = "w" : player = "b"
+binding.pry
+  # player == "b" ? player = "w" : player = "b"
+  board.change_player
   if board.in_checkmate?
     checkmate = true
   end
 
 end
-player == "b" ? player = "w" : player = "b"
-puts "Congratulations, player #{player} is the winner!"
+board.change_player
+puts "Congratulations, player #{board.player} is the winner!"
 puts "The game is over, thank you for playing :)"
 
 

@@ -6,12 +6,7 @@ chessboard:
     - 0
     - 0
     piece: rook
-  - &18 !ruby/object:Knight
-    team: b
-    position:
-    - 2
-    - 2
-    piece: knight
+  -
   - &19 !ruby/object:Bishop
     position:
     - 0
@@ -98,7 +93,12 @@ chessboard:
     team: b
     piece: black_pawn
   - "| 7 |"
-- -
+- - &18 !ruby/object:Knight
+    team: b
+    position:
+    - 2
+    - 0
+    piece: knight
   -
   -
   -
@@ -116,19 +116,15 @@ chessboard:
   -
   -
   - "| 5 |"
-- -
-  -
-  -
-  -
-  -
-  -
-  -
-  -
-  - "| 4 |"
-- -
+- - &1 !ruby/object:WhitePawn
+    position:
+    - 4
+    - 0
+    team: w
+    piece: white_pawn
   - &2 !ruby/object:WhitePawn
     position:
-    - 5
+    - 4
     - 1
     team: w
     piece: white_pawn
@@ -138,13 +134,17 @@ chessboard:
   -
   -
   -
+  - "| 4 |"
+- -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
   - "| 3 |"
-- - &1 !ruby/object:WhitePawn
-    position:
-    - 6
-    - 0
-    team: w
-    piece: white_pawn
+- -
   -
   - &3 !ruby/object:WhitePawn
     position:
@@ -275,3 +275,4 @@ remaining_black:
 - *30
 - *31
 - *32
+player: b
