@@ -61,6 +61,19 @@ RSpec.describe Board do
         value = board.check("b")
         expect(value).to be(false)
       end
+
+      it 'Does not accept illegal moves' do
+        board.chessboard[6][7] = Rook.new("b", [6,7])
+        board.remaining_black << board.chessboard[6][7]
+        king = King.new("w", [7,4])
+        board.chessboard[7][4] = king
+        board.remaining_white << board.chessboard[7][4]
+        moves = king.movement(board.chessboard)
+        legal_moves = board.legal_move?(moves, king, "w")
+        board.display_board
+        puts legal_moves
+        expect(legal_moves).to eql([[7,5],[7,3]])
+      end
     end
 
     context 'When checking for checkmate' do
