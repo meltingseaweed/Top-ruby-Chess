@@ -223,26 +223,30 @@ class Board
   def castling(direction, piece)
     if direction == "castleleft" && piece.team == "b"
       rook = @chessboard[0][0]
-      @chessboard[0][0] = piece
-      piece.position = [0,0]
+      king = @chessboard[0][4]
+      @chessboard[0][0] = king
+      king.position = [0,0]
       @chessboard[0][4] = rook
       rook.position = [0,4]
     elsif direction == "castleright" && piece.team == "b"
       rook = @chessboard[0][7]
-      @chessboard[0][7] = piece
-      piece.position = [0,7]
+      king = @chessboard[0][4]
+      @chessboard[0][7] = king
+      king.position = [0,7]
       @chessboard[0][4] = rook
       rook.position = [0,4]
     elsif direction == "castleleft" && piece.team == "w"
       rook = @chessboard[7][0]
-      @chessboard[7][0] = piece
-      piece.position = [7,0]
+      king = @chessboard[7][4]
+      @chessboard[7][0] = king
+      king.position = [7,0]
       @chessboard[7][4] = rook
       rook.position = [7,4]
     elsif direction == "castleright" && piece.team == "w"
       rook = @chessboard[7][7]
-      @chessboard[7][7] = piece
-      piece.position = [7,7]
+      king = @chessboard[7][4]
+      @chessboard[7][7] = king
+      king.position = [7,7]
       @chessboard[7][4] = rook
       rook.position = [7,4]
     end

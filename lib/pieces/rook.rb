@@ -21,7 +21,6 @@ class Rook < Pieces
     right.each { |val| all_possible_moves << val unless val == [] }
     downwards.each { |val| all_possible_moves << val unless val == [] }
     left.each { |val| all_possible_moves << val unless val == [] }
-
     if castle_left?(chessboard)
       all_possible_moves << ["castleleft"]
     end
@@ -43,7 +42,7 @@ class Rook < Pieces
 
   def castle_right?(chessboard)
     # Separate checks for each team
-    if @team == "b"
+    if @team == "b" && @position == [0,7]
       # Has not moved yet
       if @move_count == 0 && chessboard[0][4].move_count == 0
         # Empty space between them
@@ -51,7 +50,7 @@ class Rook < Pieces
           return true
         end
       end
-    elsif @team == "w"
+    elsif @team == "w" && @position == [7,7]
       # Has not moved yet
       if @move_count == 0 && chessboard[7][4].move_count == 0
         # Empty space between them
@@ -65,7 +64,7 @@ class Rook < Pieces
 
   def castle_left?(chessboard)
     # Separate checks for each team
-    if @team == "b"
+    if @team == "b" && @position == [0,0]
       # Has not moved yet
       if @move_count == 0 && chessboard[0][4].move_count == 0
         # Empty space between them
@@ -73,7 +72,7 @@ class Rook < Pieces
           return true
         end
       end
-    elsif @team == "w"
+    elsif @team == "w" && @position == [7,0]
       # Has not moved yet
       if @move_count == 0 && chessboard[7][4].move_count == 0
         # Empty space between them

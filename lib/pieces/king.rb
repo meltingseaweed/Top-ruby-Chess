@@ -24,7 +24,7 @@ class King
         new_positions << [new_row, new_col] if chessboard[new_row][new_col].nil?
       end
     end
-    binding.pry
+    
     if castle_left?(chessboard)
       new_positions << ["castleleft"]
     end
