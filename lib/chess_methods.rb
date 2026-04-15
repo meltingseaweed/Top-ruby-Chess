@@ -22,11 +22,30 @@ end
 def convert_to_readable(array)
   letter_array = %w(a b c d e f g h)
   num_array = [7, 6, 5, 4, 3, 2, 1, 0]
+  if array.include?("castleleft")
+    array.delete("castleleft")
+    new = array.map do |x, y|
+    x = num_array[x-1].to_s
+    y = letter_array[y]
+    ["#{y}#{x}"]
+  end
+  array.push("castleleft")
+  elsif array.include?("castleright")
+    array.delete("castleright")
+    new = array.map do |x, y|
+    x = num_array[x-1].to_s
+    y = letter_array[y]
+    ["#{y}#{x}"]
+  end
+  array.push("castleright")
+  else
   new = array.map do |x, y|
     x = num_array[x-1].to_s
     y = letter_array[y]
     ["#{y}#{x}"]
   end
+  end
+
 end
 
 end

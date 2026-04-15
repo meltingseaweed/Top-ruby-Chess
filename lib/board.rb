@@ -142,7 +142,6 @@ class Board
       moves = chosen_piece.movement(@chessboard)
       capture = chosen_piece.capturable(@chessboard)
     end
-
     readable_moves = convert_to_readable(moves)
     readable_capture = convert_to_readable(capture)
     puts "Possible moves are: #{readable_moves}".colorize(:green)
@@ -168,7 +167,16 @@ class Board
     capture = chosen_piece.capturable(@chessboard)
     moves = legal_move?(moves, chosen_piece)
     capture = legal_move?(capture, chosen_piece)
-    execute_move(player_next, chosen_piece, @chessboard)
+    if player_next == "castleleft"
+      castling("castleleft", chosen_piece)
+    elsif player_next == "castleright"
+      castling("castleright", chosen_piece)
+    else
+      execute_move(player_next, chosen_piece, @chessboard)
+      if chosen_piece.class == King || chosen_piece.class == Rook
+        chosen_piece.move_count += 1
+      end
+    end
     
     if chosen_piece.class == BlackPawn || chosen_piece.class == WhitePawn
       chosen_piece.upgrade(@chessboard)
@@ -184,8 +192,16 @@ class Board
       copy_board = @chessboard.map(&:clone)
       copy_remaining_black = @remaining_black.clone
       copy_remaining_white = @remaining_white.clone
-      execute_move(move, piece, copy_board)
-      illegal_move = check(copy_board)
+      if move == "castleleft"
+        castling("castleleft", piece)
+        illegal_move = check(copy_board)
+      elsif move == "castleright"
+        castling("castleright", piece)
+        illegal_move = check(copy_board)
+      else
+        execute_move(move, piece, copy_board)
+        illegal_move = check(copy_board)
+      end
       if illegal_move
         next
       else
@@ -193,8 +209,45 @@ class Board
       end
     end
     piece.position = original_position
+    if piece.class == King
+      if piece.castle_left
+        legal_moves << ["castleleft"]
+      elsif piece.castle_right
+        legal_moves << ["castleright"]
+      end
+    end
+    binding.pry
     legal_moves
   end
+
+  def castling(direction, piece)
+    if direction == "castleleft" && piece.team == "b"
+      rook = @chessboard[0][0]
+      @chessboard[0][0] = piece
+      piece.position = [0,0]
+      @chessboard[0][4] = rook
+      rook.position = [0,4]
+    elsif direction == "castleright" && piece.team == "b"
+      rook = @chessboard[0][7]
+      @chessboard[0][7] = piece
+      piece.position = [0,7]
+      @chessboard[0][4] = rook
+      rook.position = [0,4]
+    elsif direction == "castleleft" && piece.team == "w"
+      rook = @chessboard[7][0]
+      @chessboard[7][0] = piece
+      piece.position = [7,0]
+      @chessboard[7][4] = rook
+      rook.position = [7,4]
+    elsif direction == "castleright" && piece.team == "w"
+      rook = @chessboard[7][7]
+      @chessboard[7][7] = piece
+      piece.position = [7,7]
+      @chessboard[7][4] = rook
+      rook.position = [7,4]
+    end
+  end
+
 
   def execute_move(player_next, chosen_piece, board)
     moves = chosen_piece.movement(board)

@@ -4,11 +4,12 @@ require_relative '../all_pieces'
 class King
   
   attr_reader :team, :piece
-  attr_accessor :position
+  attr_accessor :position, :move_count
   def initialize(team, position)
     @team = team
     @position = position
     @piece = "king"
+    @move_count = 0
   end
 
   def movement(chessboard)
@@ -22,6 +23,13 @@ class King
       if new_row.between?(0,7) && new_col.between?(0,7)
         new_positions << [new_row, new_col] if chessboard[new_row][new_col].nil?
       end
+    end
+    binding.pry
+    if castle_left?(chessboard)
+      new_positions << ["castleleft"]
+    end
+    if castle_right?(chessboard)
+      new_positions << ["castleright"]
     end
     new_positions
   end
@@ -41,5 +49,49 @@ class King
       end
     end
     enemy_pieces
+  end
+
+  def castle_right?(chessboard)
+    # Separate checks for each team
+    if @team == "b"
+      # Has not moved yet
+      if @move_count == 0 && chessboard[0][7].move_count == 0
+        # Empty space between them
+        if chessboard[0][5].nil? && chessboard[0][6].nil?
+          return true
+        end
+      end
+    elsif @team == "w"
+      # Has not moved yet
+      if @move_count == 0 && chessboard[7][7].move_count == 0
+        # Empty space between them
+        if chessboard[7][5].nil? && chessboard[7][6].nil?
+          return true
+        end
+      end
+    end
+    return false
+  end
+
+  def castle_left?(chessboard)
+    # Separate checks for each team
+    if @team == "b"
+      # Has not moved yet
+      if @move_count == 0 && chessboard[0][0].move_count == 0
+        # Empty space between them
+        if chessboard[0][1].nil? && chessboard[0][2].nil? && chessboard[0][3].nil?
+          return true
+        end
+      end
+    elsif @team == "w"
+      # Has not moved yet
+      if @move_count == 0 && chessboard[7][0].move_count == 0
+        # Empty space between them
+        if chessboard[7][1].nil? && chessboard[7][2].nil? && chessboard[7][3].nil?
+          return true
+        end
+      end
+    end
+    return false
   end
 end

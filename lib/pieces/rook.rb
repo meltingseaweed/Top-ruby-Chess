@@ -2,12 +2,13 @@ require_relative '../all_pieces'
 
 class Rook < Pieces
 
-  attr_reader :team, :piece
+  attr_reader :team, :piece, :move_count
   attr_accessor :position
   def initialize(team, position)
   @team = team
   @position = position
   @piece = "rook"
+  @move_count = 0
   end
 
   def movement(chessboard)
