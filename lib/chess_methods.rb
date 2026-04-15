@@ -45,9 +45,6 @@ def convert_to_readable(array)
     ["#{y}#{x}"]
   end
   end
-
-
+  
 end
-
-
 end

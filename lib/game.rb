@@ -35,9 +35,7 @@ checkmate = false
 puts "Note that you can save at anytime by inputting 'save' during your turn"
 until checkmate == true
   board.display_board
-  binding.pry
   check = board.check(chessboard)
-  binding.pry
   # If check, make a move that takes them out of check.
   # If false, then make a regular move.
   if check

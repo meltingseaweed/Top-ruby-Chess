@@ -46,11 +46,9 @@ RSpec.describe BlackPawn do
         black = BlackPawn.new("b", [4,3])
         white = board.chessboard[6][4]
         board.chessboard[4][3] = black
-        binding.pry
         capture = white.capturable(board.chessboard, board.en_passant_b)
         board.execute_move([4,4], white, board.chessboard, capture)
         capture = black.capturable(board.chessboard, board.en_passant_w)
-        binding.pry
         expect(capture).to eql([[5,4]])
 
       end
@@ -63,7 +61,6 @@ RSpec.describe BlackPawn do
         capture_white = white.capturable(board.chessboard, board.en_passant_b)
         board.execute_move([4,4], white, board.chessboard, capture_white)
         capture_black = black.capturable(board.chessboard, board.en_passant_w)
-        binding.pry
         board.execute_move([5,4], black, board.chessboard, capture_black)
         expect(board.chessboard[4][4]).to be(nil)
       end

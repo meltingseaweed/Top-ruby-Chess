@@ -227,7 +227,6 @@ class Board
         legal_moves << ["castleright"]
       end
     end
-    binding.pry
     legal_moves
   end
 
@@ -267,7 +266,6 @@ class Board
   def execute_move(player_next, piece, board, capture)
     moves = piece.movement(board)
     original_position = piece.position
-    binding.pry
     if piece.class == WhitePawn && player_next == @en_passant_b
       board[player_next[0]][player_next[1]] = piece
       piece.position = player_next
@@ -278,7 +276,6 @@ class Board
       piece.position = player_next
       board[original_position[0]][original_position[1]] = nil
       board[player_next[0] - 1][player_next[1]] = nil
-
     elsif moves.include?(player_next)
       board[player_next[0]][player_next[1]] = piece
       piece.position = player_next
@@ -302,7 +299,6 @@ class Board
     elsif piece.class == BlackPawn && piece.position[0] == original_position[0] + 2
       @en_passant_b = [original_position[0] + 1, original_position[1]]
     end
-      binding.pry
   end
   
   def check(board)
@@ -316,7 +312,6 @@ class Board
       remaining_black.each do |piece|
         piece.capturable(board).each { |pos| enemy_range << pos unless pos == []}
       end
-      binding.pry
       if enemy_range.include?(w_king[0].position)
         return true
       else
@@ -330,11 +325,9 @@ class Board
       end
       b_king = @remaining_black.select { |piece| piece.piece == "king" }
       remaining_white.each do |piece|
-        binding.pry
         piece_range = piece.capturable(board)
         piece_range.each { |pos| enemy_range << pos unless pos == []}
       end
-      binding.pry
       if enemy_range.include?(b_king[0].position)
         return true
       else
