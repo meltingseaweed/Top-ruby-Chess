@@ -26,11 +26,13 @@ class BlackPawn < Pieces
     row = @position[0]
     col = @position[1]
     if col.between?(1,6)
+      binding.pry
       left = chessboard[row + 1][col - 1]
       right = chessboard[row + 1][col + 1]
       if left != nil && left.team != @team
         capturable_pieces << [row + 1, col - 1]
-      elsif right != nil && right.team != @team
+      end
+      if right != nil && right.team != @team
         capturable_pieces << [row + 1, col + 1]
       end
     elsif col == 0
@@ -41,5 +43,28 @@ class BlackPawn < Pieces
       capturable_pieces << [row + 1, col + 1] if left != nil && left.team != @team
     end
     capturable_pieces
+  end
+
+  def upgrade(chessboard)
+    if @position[0] == 7
+      binding.pry
+      puts "Pawn may be upgraded, what class would you like?"
+      puts "'rook' / 'knight' / 'bishop' / 'queen' ?"
+      upgraded_piece = gets.chomp
+      case upgraded_piece
+      when 'rook'
+        chessboard[@position[0]][@position[1]] = nil
+        chessboard[@position[0]][@position[1]] = Rook.new("b", @position)
+        when 'knight'
+        chessboard[@position[0]][@position[1]] = nil
+        chessboard[@position[0]][@position[1]] = Knight.new("b", @position)
+        when 'bishop'
+        chessboard[@position[0]][@position[1]] = nil
+        chessboard[@position[0]][@position[1]] = Bishop.new("b", @position)
+        when 'queen'
+        chessboard[@position[0]][@position[1]] = nil
+        chessboard[@position[0]][@position[1]] = Queen.new("b", @position)
+      end
+    end
   end
 end

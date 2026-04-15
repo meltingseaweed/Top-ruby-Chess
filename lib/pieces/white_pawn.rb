@@ -30,7 +30,8 @@ class WhitePawn < Pieces
       right = chessboard[row - 1][col + 1]
       if left != nil && left.team != @team
         capturable_pieces << [row - 1, col - 1]
-      elsif right != nil && right.team != @team
+      end
+      if right != nil && right.team != @team
         capturable_pieces << [row - 1, col + 1]
       end
     elsif col == 0
