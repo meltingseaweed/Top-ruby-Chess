@@ -55,6 +55,7 @@ until checkmate == true
     checkmate = true
   end
   board.reset_captured_piece
+  board.reset_en_passant
 end
 board.change_player
 puts "Congratulations, player #{board.player} is the winner!"

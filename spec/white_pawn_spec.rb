@@ -42,7 +42,7 @@ RSpec.describe WhitePawn do
     end
 
     context 'for en passant' do 
-      xit 'can add en passant location to legal capture array' do
+      xit 'can add en passant location to capture array' do
         board.set_up_chessboard
         white = WhitePawn.new("w", [3,5])
         black = board.chessboard[1][4]

@@ -21,17 +21,17 @@ class BlackPawn < Pieces
     possible_moves
   end
 
-  def capturable(chessboard)
+  def capturable(chessboard, en_passant)
     capturable_pieces = []
     row = @position[0]
     col = @position[1]
     if col.between?(1,6) && row < 7
       left = chessboard[row + 1][col - 1]
       right = chessboard[row + 1][col + 1]
-      if left != nil && left.team != @team
+      if left != nil && left.team != @team || [row + 1, col - 1] == en_passant
         capturable_pieces << [row + 1, col - 1]
       end
-      if right != nil && right.team != @team
+      if right != nil && right.team != @team || [row + 1, col + 1] == en_passant
         capturable_pieces << [row + 1, col + 1]
       end
     elsif col == 0

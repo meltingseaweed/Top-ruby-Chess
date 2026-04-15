@@ -273,6 +273,11 @@ class Board
       piece.position = player_next
       board[original_position[0]][original_position[1]] = nil
       board[player_next[0] + 1][player_next[1]] = nil
+    elsif piece.class == BlackPawn && player_next == @en_passant_w
+      board[player_next[0]][player_next[1]] = piece
+      piece.position = player_next
+      board[original_position[0]][original_position[1]] = nil
+      board[player_next[0] - 1][player_next[1]] = nil
 
     elsif moves.include?(player_next)
       board[player_next[0]][player_next[1]] = piece
@@ -407,6 +412,14 @@ class Board
 
   def reset_captured_piece
     @captured_piece = nil
+  end
+
+  def reset_en_passant
+    if @player == "w"
+      @en_passant_w = nil
+    else
+      @en_passant_b = nil
+    end
   end
 
   def save(game, save_name)

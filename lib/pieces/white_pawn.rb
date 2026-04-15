@@ -26,7 +26,6 @@ class WhitePawn < Pieces
     row = @position[0]
     col = @position[1]
     if col.between?(1,6) && row > 0
-      binding.pry
       left = chessboard[row - 1][col - 1]
       right = chessboard[row - 1][col + 1]
       if left != nil && left.team != @team || [row - 1, col - 1] == en_passant
@@ -73,9 +72,5 @@ class WhitePawn < Pieces
         end
       end
     end
-  end
-
-  def en_passant?(chessboard)
-    
   end
 end
