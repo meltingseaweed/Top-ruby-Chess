@@ -25,8 +25,7 @@ class BlackPawn < Pieces
     capturable_pieces = []
     row = @position[0]
     col = @position[1]
-    if col.between?(1,6)
-      binding.pry
+    if col.between?(1,6) && row < 7
       left = chessboard[row + 1][col - 1]
       right = chessboard[row + 1][col + 1]
       if left != nil && left.team != @team
@@ -47,23 +46,30 @@ class BlackPawn < Pieces
 
   def upgrade(chessboard)
     if @position[0] == 7
-      binding.pry
-      puts "Pawn may be upgraded, what class would you like?"
-      puts "'rook' / 'knight' / 'bishop' / 'queen' ?"
-      upgraded_piece = gets.chomp
-      case upgraded_piece
-      when 'rook'
-        chessboard[@position[0]][@position[1]] = nil
+      correct_input = false
+      until correct_input == true
+        puts "Pawn may be upgraded, what class would you like?"
+        puts "'rook' / 'knight' / 'bishop' / 'queen' ?"
+        upgraded_piece = gets.chomp  
+
+        case upgraded_piece
+        when 'rook'
+        correct_input = true
+        chessboard[@position[0]][@position[1]]
         chessboard[@position[0]][@position[1]] = Rook.new("b", @position)
         when 'knight'
-        chessboard[@position[0]][@position[1]] = nil
+        correct_input = true
+        chessboard[@position[0]][@position[1]]
         chessboard[@position[0]][@position[1]] = Knight.new("b", @position)
         when 'bishop'
-        chessboard[@position[0]][@position[1]] = nil
+        correct_input = true
+        chessboard[@position[0]][@position[1]]
         chessboard[@position[0]][@position[1]] = Bishop.new("b", @position)
         when 'queen'
-        chessboard[@position[0]][@position[1]] = nil
+        correct_input = true
+        chessboard[@position[0]][@position[1]]
         chessboard[@position[0]][@position[1]] = Queen.new("b", @position)
+        end
       end
     end
   end

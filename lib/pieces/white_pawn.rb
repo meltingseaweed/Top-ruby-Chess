@@ -25,7 +25,7 @@ class WhitePawn < Pieces
     capturable_pieces = []
     row = @position[0]
     col = @position[1]
-    if col.between?(1,6)
+    if col.between?(1,6) && row > 0
       left = chessboard[row - 1][col - 1]
       right = chessboard[row - 1][col + 1]
       if left != nil && left.team != @team
@@ -42,5 +42,35 @@ class WhitePawn < Pieces
       capturable_pieces << [row - 1, col + 1] if left != nil && left.team != @team
     end
     capturable_pieces
+  end
+
+  def upgrade(chessboard)
+    if @position[0] == 0
+      correct_input = false
+      until correct_input == true
+        puts "Pawn may be upgraded, what class would you like?"
+        puts "'rook' / 'knight' / 'bishop' / 'queen' ?"
+        upgraded_piece = gets.chomp  
+
+        case upgraded_piece
+        when 'rook'
+        correct_input = true
+        chessboard[@position[0]][@position[1]]
+        chessboard[@position[0]][@position[1]] = Rook.new("w", @position)
+        when 'knight'
+        correct_input = true
+        chessboard[@position[0]][@position[1]]
+        chessboard[@position[0]][@position[1]] = Knight.new("w", @position)
+        when 'bishop'
+        correct_input = true
+        chessboard[@position[0]][@position[1]]
+        chessboard[@position[0]][@position[1]] = Bishop.new("w", @position)
+        when 'queen'
+        correct_input = true
+        chessboard[@position[0]][@position[1]]
+        chessboard[@position[0]][@position[1]] = Queen.new("w", @position)
+        end
+      end
+    end
   end
 end

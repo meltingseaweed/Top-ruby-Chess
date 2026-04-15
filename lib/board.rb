@@ -170,12 +170,10 @@ class Board
     capture = legal_move?(capture, chosen_piece)
     execute_move(player_next, chosen_piece, @chessboard)
     
-    if chosen_piece.class == BlackPawn # || chosen_piece.class == WhitePawn
+    if chosen_piece.class == BlackPawn || chosen_piece.class == WhitePawn
       chosen_piece.upgrade(@chessboard)
     end
-    binding.pry
     update_remaining_pieces
-    binding.pry
   end
 
   def legal_move?(moves, piece)
@@ -222,8 +220,6 @@ class Board
   end
   
   def check(board)
-    binding.pry
-    # @player == "w" ? enemy_black = true : enemy_black = false
     if @player == "w"
       remaining_black = @remaining_black.clone
       if @captured_piece != nil && @captured_piece.team == "b"
