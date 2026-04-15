@@ -11,7 +11,7 @@ require_relative 'chess_methods'
 class Board
 
   include ChessMethods
-  attr_reader :chessboard, :player
+  attr_reader :chessboard, :player, :en_passant_w, :en_passant_b
   attr_accessor :remaining_white, :remaining_black
 
   def initialize
@@ -19,6 +19,8 @@ class Board
     @remaining_white = []
     @remaining_black = []
     @captured_piece 
+    @en_passant_w
+    @en_passant_b
     @player = "w"
   end
 
@@ -164,7 +166,16 @@ class Board
     player_next = calculate_moves(chosen_piece)
     original_position = chosen_piece.position
     moves = chosen_piece.movement(@chessboard)
-    capture = chosen_piece.capturable(@chessboard)
+
+    if chosen_piece.class == WhitePawn
+      capture = chosen_piece.capturable(@chessboard, @en_passant_b)
+    elsif chosen_piece.class == BlackPawn
+      capture = chosen_piece.capturable(@chessboard, @en_passant_w)
+    else
+      capture = chosen_piece.capturable(@chessboard)
+    end
+
+    
     moves = legal_move?(moves, chosen_piece)
     capture = legal_move?(capture, chosen_piece)
     if player_next == "castleleft"
@@ -172,7 +183,7 @@ class Board
     elsif player_next == "castleright"
       castling("castleright", chosen_piece)
     else
-      execute_move(player_next, chosen_piece, @chessboard)
+      execute_move(player_next, chosen_piece, @chessboard, capture)
       if chosen_piece.class == King || chosen_piece.class == Rook
         chosen_piece.move_count += 1
       end
@@ -253,27 +264,40 @@ class Board
   end
 
 
-  def execute_move(player_next, chosen_piece, board)
-    moves = chosen_piece.movement(board)
-    capture = chosen_piece.capturable(board)
-    chosen_piece_position = chosen_piece.position
-    if moves.include?(player_next)
-      board[player_next[0]][player_next[1]] = chosen_piece
-      chosen_piece.position = player_next
-      board[chosen_piece_position[0]][chosen_piece_position[1]] = nil
+  def execute_move(player_next, piece, board, capture)
+    moves = piece.movement(board)
+    original_position = piece.position
+    binding.pry
+    if piece.class == WhitePawn && player_next == @en_passant_b
+      board[player_next[0]][player_next[1]] = piece
+      piece.position = player_next
+      board[original_position[0]][original_position[1]] = nil
+      board[player_next[0] + 1][player_next[1]] = nil
+
+    elsif moves.include?(player_next)
+      board[player_next[0]][player_next[1]] = piece
+      piece.position = player_next
+      board[original_position[0]][original_position[1]] = nil
     elsif capture.include?(player_next)
       if board[player_next[0]][player_next[1]].team == "w"
         @captured_piece = board[player_next[0]][player_next[1]]
-        board[player_next[0]][player_next[1]] = chosen_piece
-        chosen_piece.position = player_next
-        board[chosen_piece_position[0]][chosen_piece_position[1]] = nil
+        board[player_next[0]][player_next[1]] = piece
+        piece.position = player_next
+        board[original_position[0]][original_position[1]] = nil
       elsif board[player_next[0]][player_next[1]].team == "b"
         @captured_piece = board[player_next[0]][player_next[1]]
-        board[player_next[0]][player_next[1]] = chosen_piece
-        chosen_piece.position = player_next
-        board[chosen_piece_position[0]][chosen_piece_position[1]] = nil
+        board[player_next[0]][player_next[1]] = piece
+        piece.position = player_next
+        board[original_position[0]][original_position[1]] = nil
       end
     end
+
+    if piece.class == WhitePawn && piece.position[0] == original_position[0] - 2
+      @en_passant_w = [original_position[0] - 1, original_position[1]]
+    elsif piece.class == BlackPawn && piece.position[0] == original_position[0] + 2
+      @en_passant_b = [original_position[0] + 1, original_position[1]]
+    end
+      binding.pry
   end
   
   def check(board)
