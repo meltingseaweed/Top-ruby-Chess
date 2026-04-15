@@ -2,8 +2,8 @@ require_relative '../all_pieces'
 
 class Rook < Pieces
 
-  attr_reader :team, :piece, :move_count
-  attr_accessor :position
+  attr_reader :team, :piece
+  attr_accessor :position, :move_count
   def initialize(team, position)
   @team = team
   @position = position
@@ -21,6 +21,14 @@ class Rook < Pieces
     right.each { |val| all_possible_moves << val unless val == [] }
     downwards.each { |val| all_possible_moves << val unless val == [] }
     left.each { |val| all_possible_moves << val unless val == [] }
+
+    if castle_left?(chessboard)
+      all_possible_moves << ["castleleft"]
+    end
+    if castle_right?(chessboard)
+      all_possible_moves << ["castleright"]
+    end
+
     all_possible_moves
   end
 
@@ -32,4 +40,49 @@ class Rook < Pieces
     capture_pieces << right_enemy_check(chessboard)
     capture_pieces.compact
   end
+
+  def castle_right?(chessboard)
+    # Separate checks for each team
+    if @team == "b"
+      # Has not moved yet
+      if @move_count == 0 && chessboard[0][4].move_count == 0
+        # Empty space between them
+        if chessboard[0][5].nil? && chessboard[0][6].nil?
+          return true
+        end
+      end
+    elsif @team == "w"
+      # Has not moved yet
+      if @move_count == 0 && chessboard[7][4].move_count == 0
+        # Empty space between them
+        if chessboard[7][5].nil? && chessboard[7][6].nil?
+          return true
+        end
+      end
+    end
+    return false
+  end
+
+  def castle_left?(chessboard)
+    # Separate checks for each team
+    if @team == "b"
+      # Has not moved yet
+      if @move_count == 0 && chessboard[0][4].move_count == 0
+        # Empty space between them
+        if chessboard[0][1].nil? && chessboard[0][2].nil? && chessboard[0][3].nil?
+          return true
+        end
+      end
+    elsif @team == "w"
+      # Has not moved yet
+      if @move_count == 0 && chessboard[7][4].move_count == 0
+        # Empty space between them
+        if chessboard[7][1].nil? && chessboard[7][2].nil? && chessboard[7][3].nil?
+          return true
+        end
+      end
+    end
+    return false
+  end
+
 end
