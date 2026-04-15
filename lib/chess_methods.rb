@@ -29,17 +29,4 @@ def convert_to_readable(array)
   end
 end
 
-def save_game(game, save_name)
-      game.name_save(save_name)
-      $stdout = File.open("game_one.yml", "w") 
-      puts YAML::dump(game)
-      $stdout.close
-      $stdout = STDOUT
-end
-
-  def load_game
-    game = Psych.safe_load_file('game_one.yml', permitted_classes: [Board])
-    game # Will output the object of the loaded save (Top one only)
-  end
-  
 end
