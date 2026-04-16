@@ -52,19 +52,14 @@ class King
   end
 
   def castle_right?(chessboard)
-    # Separate checks for each team
-    if @team == "b"
-      # Has not moved yet
+    if @team == "b" && chessboard[0][7].class == Rook
       if @move_count == 0 && chessboard[0][7].move_count == 0
-        # Empty space between them
         if chessboard[0][5].nil? && chessboard[0][6].nil?
           return true
         end
       end
-    elsif @team == "w"
-      # Has not moved yet
+    elsif @team == "w" && chessboard[7][7].class == Rook
       if @move_count == 0 && chessboard[7][7].move_count == 0
-        # Empty space between them
         if chessboard[7][5].nil? && chessboard[7][6].nil?
           return true
         end
@@ -74,19 +69,14 @@ class King
   end
 
   def castle_left?(chessboard)
-    # Separate checks for each team
-    if @team == "b"
-      # Has not moved yet
+    if @team == "b" && chessboard[0][0].class == Rook
       if @move_count == 0 && chessboard[0][0].move_count == 0
-        # Empty space between them
         if chessboard[0][1].nil? && chessboard[0][2].nil? && chessboard[0][3].nil?
           return true
         end
       end
-    elsif @team == "w"
-      # Has not moved yet
+    elsif @team == "w" && chessboard[7][0] == Rook
       if @move_count == 0 && chessboard[7][0].move_count == 0
-        # Empty space between them
         if chessboard[7][1].nil? && chessboard[7][2].nil? && chessboard[7][3].nil?
           return true
         end

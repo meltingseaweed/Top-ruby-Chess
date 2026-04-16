@@ -25,25 +25,25 @@ def convert_to_readable(array)
   if array.include?("castleleft")
     array.delete("castleleft")
     new = array.map do |x, y|
-    x = num_array[x].to_s
-    y = letter_array[y]
-    ["#{y}#{x}"]
-  end
-  array.push("castleleft")
+      x = num_array[x].to_s
+      y = letter_array[y]
+      ["#{y}#{x}"]
+    end
+    array.push("castleleft")
   elsif array.include?("castleright")
     array.delete("castleright")
     new = array.map do |x, y|
     x = num_array[x].to_s
     y = letter_array[y]
     ["#{y}#{x}"]
-  end
-  array.push("castleright")
+    end
+    array.push("castleright")
   else
-  new = array.map do |x, y|
-    x = num_array[x].to_s
-    y = letter_array[y]
-    ["#{y}#{x}"]
-  end
+    new = array.map do |x, y|
+      x = num_array[x].to_s
+      y = letter_array[y]
+      ["#{y}#{x}"]
+    end
   end
 
 end
